@@ -1,13 +1,13 @@
 {
-    "name": "@matsumana/centraldogma-js",
+    "name": "@matsumana/centraldogma-nodejs",
     "version": "0.1.0",
     "description": "Central Dogma client for JavaScript",
     "author": "Manabu Matsuzaki",
     "license": "Apache-2.0",
-    "homepage": "https://github.com/matsumana/centraldogma-js",
+    "homepage": "https://github.com/matsumana/centraldogma-nodejs",
     "repository": {
         "type": "git",
-        "url": "git@github.com:matsumana/centraldogma-js.git"
+        "url": "git@github.com:matsumana/centraldogma-nodejs.git"
     },
     "engines": {
         "node": ">=12"
