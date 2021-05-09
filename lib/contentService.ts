@@ -1,5 +1,5 @@
-import { Author } from './projectService';
 import { CentralDogmaClient } from './centralDogmaClient';
+import { Author } from './projectService';
 
 export type Query = {
     path: string;

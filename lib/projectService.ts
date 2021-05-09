@@ -1,4 +1,4 @@
-import { CentralDogmaClient } from '../lib';
+import { CentralDogmaClient } from './centralDogmaClient';
 
 const PATH_PROJECT = '/api/v1/projects';
 
