@@ -8,7 +8,7 @@ describe('WatchService', () => {
         return new Promise((resolve) => setTimeout(resolve, milliseconds));
     }
 
-    it('watchFileInner', async () => {
+    it('watchFileInner returns Not Modified(304) response', async () => {
         const client = new CentralDogmaClient({
             baseURL: 'http://localhost:36462',
         });
