@@ -1,4 +1,5 @@
 import http2 from 'http2';
+import { exec } from 'child_process';
 import { CentralDogmaClient, ContentService, WatchService } from '../lib';
 
 const { HTTP_STATUS_NOT_MODIFIED } = http2.constants;
@@ -47,15 +48,31 @@ describe('WatchService', () => {
         });
         const sut = new WatchService(client);
 
-        const project = 'project1';
-        const repo = 'repo1';
-        const filePath = '/test3.json';
+        const project = 'project2';
+        const repo = 'repo2';
+        const filePath = '/test6.json';
 
         const emitter = sut.watchFile(project, repo, filePath);
+
+        let count = 0;
+
         emitter.on('data', (data) => {
+            count++;
             console.log(`data=${JSON.stringify(data)}`);
         });
 
-        await sleep(90_000);
-    }, 90_000);
+        setTimeout(() => {
+            // The target updates the json three times
+            exec('make update-test-data', (e) => {
+                if (e) {
+                    // fail
+                    expect(true).toBe(false);
+                }
+            });
+        }, 1_000);
+
+        await sleep(15_000);
+
+        expect(count).toBe(3);
+    }, 30_000);
 });

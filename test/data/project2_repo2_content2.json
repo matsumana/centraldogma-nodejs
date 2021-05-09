@@ -1,0 +1,15 @@
+{
+    "file": {
+        "name": "test6.json",
+        "type": "JSON",
+        "path": "/test6.json",
+        "content": "{\"field1\": \"corge\"}"
+    },
+    "commitMessage": {
+        "summary": "Add /test6.json",
+        "detail": {
+            "content": "",
+            "markup": "PLAINTEXT"
+        }
+    }
+}
