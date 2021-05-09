@@ -1,0 +1,16 @@
+{
+    "file": {
+        "revision": "HEAD",
+        "name": "test6.json",
+        "type": "JSON",
+        "path": "/test6.json",
+        "content": "{\"field1\": \"corge3\"}"
+    },
+    "commitMessage": {
+        "summary": "Edit /test6.json",
+        "detail": {
+            "content": "",
+            "markup": "PLAINTEXT"
+        }
+    }
+}
