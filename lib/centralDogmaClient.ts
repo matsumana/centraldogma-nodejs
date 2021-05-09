@@ -29,19 +29,25 @@ export class CentralDogmaClient {
         this.client = http2.connect(opts.baseURL, {});
     }
 
-    async request(path: string) {
+    async request(path: string, requestHeaders?: OutgoingHttpHeaders) {
         return new Promise<CentralDogmaResponse>((resolve, reject) => {
-            const stream = this.client.request({
+            const defaultHeaders = {
                 [HTTP2_HEADER_AUTHORIZATION]: `Bearer ${this.token}`,
                 [HTTP2_HEADER_PATH]: path,
+            };
+            const stream = this.client.request({
+                ...defaultHeaders,
+                ...(requestHeaders ?? {}),
             });
-            stream.on('response', (headers) => {
+            stream.on('response', (responseHeaders) => {
                 let body = '';
                 stream.on('data', (chunk) => (body += chunk.toString()));
                 stream.on('end', () => {
-                    const statusCode = Number(headers[HTTP2_HEADER_STATUS]);
+                    const statusCode = Number(
+                        responseHeaders[HTTP2_HEADER_STATUS]
+                    );
                     const response: CentralDogmaResponse = {
-                        headers: headers,
+                        headers: responseHeaders,
                         statusCode: statusCode,
                         body: body,
                     };

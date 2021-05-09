@@ -12,6 +12,7 @@ import {
     PushResult,
     Query,
 } from './contentService';
+import { WatchResult, WatchService } from './watchService';
 
 export {
     CentralDogmaClient,
@@ -28,4 +29,7 @@ export {
     Commit,
     CommitMessage,
     Change,
+    //
+    WatchResult,
+    WatchService,
 };

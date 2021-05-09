@@ -63,8 +63,8 @@ export class ContentService {
     ): Promise<[Entry, number]> {
         const path = `/api/v1/projects/${project}/repos/${repo}/contents/${filePath}`;
         const response = await this.client.request(path);
-        const entries: Entry = response.body ? JSON.parse(response.body) : {};
-        return [entries, response.statusCode];
+        const entry: Entry = response.body ? JSON.parse(response.body) : {};
+        return [entry, response.statusCode];
     }
 
     async getFiles(): Promise<[Entry[], number]> {
