@@ -4,6 +4,10 @@ import { CentralDogmaClient, ContentService, WatchService } from '../lib';
 const { HTTP_STATUS_NOT_MODIFIED } = http2.constants;
 
 describe('WatchService', () => {
+    async function sleep(milliseconds: number) {
+        return new Promise((resolve) => setTimeout(resolve, milliseconds));
+    }
+
     it('watchFileInner', async () => {
         const client = new CentralDogmaClient({
             baseURL: 'http://localhost:36462',
@@ -47,7 +51,11 @@ describe('WatchService', () => {
         const repo = 'repo1';
         const filePath = '/test3.json';
 
-        const watchResult = await sut.watchFile(project, repo, filePath);
-        console.log(watchResult.entry.content);
+        const emitter = sut.watchFile(project, repo, filePath);
+        emitter.on('data', (data) => {
+            console.log(`data=${JSON.stringify(data)}`);
+        });
+
+        await sleep(90_000);
     }, 90_000);
 });

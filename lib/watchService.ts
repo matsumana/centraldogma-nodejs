@@ -1,8 +1,13 @@
 import http2 from 'http2';
-import { Entry } from './contentService';
-import { CentralDogmaClient, ContentService } from '../lib';
+import { EventEmitter } from 'events';
+import { CentralDogmaClient } from './centralDogmaClient';
+import { ContentService, Entry } from './contentService';
 
-const { HTTP2_HEADER_IF_NONE_MATCH, HTTP2_HEADER_PREFER } = http2.constants;
+const {
+    HTTP2_HEADER_IF_NONE_MATCH,
+    HTTP2_HEADER_PREFER,
+    HTTP_STATUS_NOT_MODIFIED,
+} = http2.constants;
 
 const REQUEST_HEADER_PREFER_SECONDS_DEFAULT = 60;
 
@@ -18,33 +23,49 @@ export class WatchService {
         this.client = client;
     }
 
-    async watchFile(
+    watchFile(
         project: string,
         repo: string,
         filePath: string,
         timeoutSeconds?: number
-    ): Promise<WatchResult> {
-        const contentService = new ContentService(this.client);
-        const [entry] = await contentService.getFile(project, repo, filePath);
-        const revision = entry.revision ?? -1;
+    ): EventEmitter {
+        const emitter = new EventEmitter();
 
-        let watchResult;
-
-        // eslint-disable-next-line no-constant-condition
-        while (true) {
-            try {
-                [watchResult] = await this.watchFileInner(
+        setTimeout(() => {
+            (async () => {
+                const contentService = new ContentService(this.client);
+                const [entry] = await contentService.getFile(
                     project,
                     repo,
-                    filePath,
-                    revision,
-                    timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                    filePath
                 );
-                return watchResult;
-            } catch (e) {
-                // do nothing
-            }
-        }
+                let revision = entry.revision ?? -1;
+
+                // eslint-disable-next-line no-constant-condition
+                while (true) {
+                    try {
+                        const [watchResult] = await this.watchFileInner(
+                            project,
+                            repo,
+                            filePath,
+                            revision,
+                            timeoutSeconds ??
+                                REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                        );
+
+                        revision = watchResult.revision;
+
+                        emitter.emit('data', watchResult);
+                    } catch (e) {
+                        if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
+                            throw e;
+                        }
+                    }
+                }
+            })();
+        }, 0);
+
+        return emitter;
     }
 
     private async watchFileInner(
