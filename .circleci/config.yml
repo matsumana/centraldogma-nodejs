@@ -3,6 +3,7 @@ jobs:
     build:
         working_directory: ~/repo
         docker:
+            - image: line/centraldogma:0.49.1
             - image: cimg/node:12.22
         steps:
             - checkout
@@ -18,6 +19,11 @@ jobs:
                 key: yarn-packages-{{ checksum "yarn.lock" }}
                 paths:
                     - ~/.cache/yarn
+            - run:
+                name: Wait for a while for starting up Central Dogma then setup test data
+                command: |
+                    sleep 30
+                    make setup-test-data
             - run:
                 name: Run lint
                 command: yarn lint
