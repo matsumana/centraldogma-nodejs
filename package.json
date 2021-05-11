@@ -1,7 +1,7 @@
 {
     "name": "@matsumana/centraldogma-nodejs",
     "version": "0.1.0",
-    "description": "Central Dogma client for JavaScript",
+    "description": "Central Dogma client for Node.js",
     "author": "Manabu Matsuzaki",
     "license": "Apache-2.0",
     "homepage": "https://github.com/matsumana/centraldogma-nodejs",
@@ -13,9 +13,7 @@
         "node": ">=12"
     },
     "keywords": [
-        "winston",
-        "prometheus",
-        "metrics"
+        "centraldogma"
     ],
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
