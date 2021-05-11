@@ -1,12 +1,13 @@
-import { CentralDogmaClient, ProjectService } from '../lib';
+import { CentralDogmaClient } from '../lib/centralDogmaClient';
+import { ProjectService } from '../lib';
+
+const client = new CentralDogmaClient({
+    baseURL: 'http://localhost:36462',
+});
+const sut = new ProjectService(client);
 
 describe('ProjectService', () => {
     it('list', async () => {
-        const client = new CentralDogmaClient({
-            baseURL: 'http://localhost:36462',
-        });
-        const sut = new ProjectService(client);
-
         const [projects, statusCode] = await sut.list();
         expect(statusCode).toBe(200);
         expect(projects.length).toBe(2);

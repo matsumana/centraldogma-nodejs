@@ -22,11 +22,11 @@ export type CentralDogmaResponse = {
 
 export class CentralDogmaClient {
     token: string;
-    client: ClientHttp2Session;
+    session: ClientHttp2Session;
 
     constructor(opts: CentralDogmaClientOptions) {
         this.token = opts.token ?? DEFAULT_AUTHORIZATION_TOKEN;
-        this.client = http2.connect(opts.baseURL, {});
+        this.session = http2.connect(opts.baseURL, {});
     }
 
     async request(path: string, requestHeaders?: OutgoingHttpHeaders) {
@@ -35,7 +35,7 @@ export class CentralDogmaClient {
                 [HTTP2_HEADER_AUTHORIZATION]: `Bearer ${this.token}`,
                 [HTTP2_HEADER_PATH]: path,
             };
-            const stream = this.client.request({
+            const stream = this.session.request({
                 ...defaultHeaders,
                 ...(requestHeaders ?? {}),
             });

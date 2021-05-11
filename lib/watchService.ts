@@ -18,9 +18,11 @@ export type WatchResult = {
 
 export class WatchService {
     client: CentralDogmaClient;
+    contentService: ContentService;
 
-    constructor(client: CentralDogmaClient) {
+    constructor(client: CentralDogmaClient, contentService: ContentService) {
         this.client = client;
+        this.contentService = contentService;
     }
 
     watchFile(
@@ -33,8 +35,7 @@ export class WatchService {
 
         setTimeout(() => {
             (async () => {
-                const contentService = new ContentService(this.client);
-                const [entry] = await contentService.getFile(
+                const [entry] = await this.contentService.getFile(
                     project,
                     repo,
                     filePath
