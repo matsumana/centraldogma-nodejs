@@ -1,5 +1,5 @@
 import http2 from 'http2';
-import { CentralDogmaClient } from '../lib';
+import { CentralDogmaClient } from '../lib/centralDogmaClient';
 
 const { HTTP2_HEADER_STATUS } = http2.constants;
 

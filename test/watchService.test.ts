@@ -1,8 +1,15 @@
 import http2 from 'http2';
 import { exec } from 'child_process';
-import { CentralDogmaClient, ContentService, WatchService } from '../lib';
+import { CentralDogmaClient } from '../lib/centralDogmaClient';
+import { ContentService, WatchService } from '../lib';
 
 const { HTTP_STATUS_NOT_MODIFIED } = http2.constants;
+
+const client = new CentralDogmaClient({
+    baseURL: 'http://localhost:36462',
+});
+const contentService = new ContentService(client);
+const sut = new WatchService(client, contentService);
 
 describe('WatchService', () => {
     async function sleep(milliseconds: number) {
@@ -10,15 +17,9 @@ describe('WatchService', () => {
     }
 
     it('watchFileInner returns Not Modified(304) response', async () => {
-        const client = new CentralDogmaClient({
-            baseURL: 'http://localhost:36462',
-        });
-        const sut = new WatchService(client);
-
         const project = 'project1';
         const repo = 'repo1';
         const filePath = '/test1.json';
-        const contentService = new ContentService(client);
         const [entry] = await contentService.getFile(project, repo, filePath);
         const revision = entry.revision ?? -1;
 
@@ -43,11 +44,6 @@ describe('WatchService', () => {
     }, 10_000);
 
     it('watchFile', async () => {
-        const client = new CentralDogmaClient({
-            baseURL: 'http://localhost:36462',
-        });
-        const sut = new WatchService(client);
-
         const project = 'project2';
         const repo = 'repo2';
         const filePath = '/test6.json';

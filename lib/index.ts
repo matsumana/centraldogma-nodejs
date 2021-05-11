@@ -1,7 +1,5 @@
-import {
-    CentralDogmaClient,
-    CentralDogmaClientOptions,
-} from './centralDogmaClient';
+import { CentralDogma } from './centralDogma';
+import { CentralDogmaClientOptions } from './centralDogmaClient';
 import { Author, Project, ProjectService } from './projectService';
 import {
     Change,
@@ -15,7 +13,8 @@ import {
 import { WatchResult, WatchService } from './watchService';
 
 export {
-    CentralDogmaClient,
+    CentralDogma,
+    //
     CentralDogmaClientOptions,
     //
     Author,
