@@ -1,6 +1,6 @@
 import http2 from 'http2';
 import { EventEmitter } from 'events';
-import { CentralDogmaClient } from './centralDogmaClient';
+import { HttpClient } from './internal/httpClient';
 import { ContentService, Entry } from './contentService';
 
 const {
@@ -17,11 +17,11 @@ export type WatchResult = {
 };
 
 export class WatchService {
-    client: CentralDogmaClient;
+    httpClient: HttpClient;
     contentService: ContentService;
 
-    constructor(client: CentralDogmaClient, contentService: ContentService) {
-        this.client = client;
+    constructor(httpClient: HttpClient, contentService: ContentService) {
+        this.httpClient = httpClient;
         this.contentService = contentService;
     }
 
@@ -84,7 +84,7 @@ export class WatchService {
             [HTTP2_HEADER_IF_NONE_MATCH]: revision,
             [HTTP2_HEADER_PREFER]: prefer,
         };
-        const response = await this.client.request(path, headers);
+        const response = await this.httpClient.request(path, headers);
         const entry: Entry = response.body
             ? JSON.parse(response.body).entry ?? {}
             : {};

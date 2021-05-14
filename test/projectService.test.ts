@@ -1,7 +1,7 @@
-import { CentralDogmaClient } from '../lib/centralDogmaClient';
+import { HttpClient } from '../lib/internal/httpClient';
 import { ProjectService } from '../lib';
 
-const client = new CentralDogmaClient({
+const client = new HttpClient({
     baseURL: 'http://localhost:36462',
 });
 const sut = new ProjectService(client);

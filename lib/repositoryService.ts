@@ -1,5 +1,5 @@
+import { HttpClient } from './internal/httpClient';
 import { Author } from './projectService';
-import { CentralDogmaClient } from './centralDogmaClient';
 
 export type Repository = {
     name: string;
@@ -14,9 +14,9 @@ export type Rev = {
 };
 
 export class RepositoryService {
-    client: CentralDogmaClient;
+    client: HttpClient;
 
-    constructor(client: CentralDogmaClient) {
+    constructor(client: HttpClient) {
         this.client = client;
     }
 }
