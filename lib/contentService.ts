@@ -1,4 +1,4 @@
-import { CentralDogmaClient } from './centralDogmaClient';
+import { HttpClient } from './internal/httpClient';
 import { Author } from './projectService';
 
 export type Query = {
@@ -41,9 +41,9 @@ export type Change = {
 };
 
 export class ContentService {
-    client: CentralDogmaClient;
+    client: HttpClient;
 
-    constructor(client: CentralDogmaClient) {
+    constructor(client: HttpClient) {
         this.client = client;
     }
 

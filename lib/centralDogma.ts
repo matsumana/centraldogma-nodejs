@@ -1,26 +1,23 @@
-import {
-    CentralDogmaClient,
-    CentralDogmaClientOptions,
-} from './centralDogmaClient';
+import { HttpClient } from './internal/httpClient';
 import { WatchService } from './watchService';
 import { ContentService } from './contentService';
 import { ProjectService } from './projectService';
 import { RepositoryService } from './repositoryService';
 
 export class CentralDogma {
-    centralDogmaClient: CentralDogmaClient;
+    httpClient: HttpClient;
     projectService: ProjectService;
     repositoryService: RepositoryService;
     contentService: ContentService;
     watchService: WatchService;
 
     constructor(opts: CentralDogmaClientOptions) {
-        this.centralDogmaClient = new CentralDogmaClient(opts);
-        this.projectService = new ProjectService(this.centralDogmaClient);
-        this.repositoryService = new RepositoryService(this.centralDogmaClient);
-        this.contentService = new ContentService(this.centralDogmaClient);
+        this.httpClient = new HttpClient(opts);
+        this.projectService = new ProjectService(this.httpClient);
+        this.repositoryService = new RepositoryService(this.httpClient);
+        this.contentService = new ContentService(this.httpClient);
         this.watchService = new WatchService(
-            this.centralDogmaClient,
+            this.httpClient,
             this.contentService
         );
     }
@@ -41,3 +38,8 @@ export class CentralDogma {
         return this.watchService;
     }
 }
+
+export type CentralDogmaClientOptions = {
+    baseURL: string;
+    token?: string;
+};

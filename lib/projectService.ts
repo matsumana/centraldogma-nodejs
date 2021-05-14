@@ -1,4 +1,4 @@
-import { CentralDogmaClient } from './centralDogmaClient';
+import { HttpClient } from './internal/httpClient';
 
 const PATH_PROJECT = '/api/v1/projects';
 
@@ -15,9 +15,9 @@ export type Author = {
 };
 
 export class ProjectService {
-    client: CentralDogmaClient;
+    client: HttpClient;
 
-    constructor(client: CentralDogmaClient) {
+    constructor(client: HttpClient) {
         this.client = client;
     }
 

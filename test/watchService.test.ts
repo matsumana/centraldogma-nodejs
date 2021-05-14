@@ -1,11 +1,11 @@
 import http2 from 'http2';
 import { exec } from 'child_process';
-import { CentralDogmaClient } from '../lib/centralDogmaClient';
+import { HttpClient } from '../lib/internal/httpClient';
 import { ContentService, WatchService } from '../lib';
 
 const { HTTP_STATUS_NOT_MODIFIED } = http2.constants;
 
-const client = new CentralDogmaClient({
+const client = new HttpClient({
     baseURL: 'http://localhost:36462',
 });
 const contentService = new ContentService(client);

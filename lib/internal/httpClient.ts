@@ -1,5 +1,6 @@
 import http2, { ClientHttp2Session } from 'http2';
 import { OutgoingHttpHeaders } from 'http';
+import { CentralDogmaClientOptions } from '../centralDogma';
 
 const {
     HTTP2_HEADER_PATH,
@@ -9,18 +10,13 @@ const {
 
 const DEFAULT_AUTHORIZATION_TOKEN = 'anonymous';
 
-export type CentralDogmaClientOptions = {
-    baseURL: string;
-    token?: string;
-};
-
 export type CentralDogmaResponse = {
     headers: OutgoingHttpHeaders;
     statusCode: number;
     body: string;
 };
 
-export class CentralDogmaClient {
+export class HttpClient {
     token: string;
     session: ClientHttp2Session;
 
