@@ -1,6 +1,6 @@
 {
     "name": "@matsumana/centraldogma-nodejs",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Central Dogma client for Node.js",
     "author": "Manabu Matsuzaki",
     "license": "Apache-2.0",
