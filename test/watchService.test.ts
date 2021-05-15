@@ -20,7 +20,7 @@ describe('WatchService', () => {
         const project = 'project1';
         const repo = 'repo1';
         const filePath = '/test1.json';
-        const [entry] = await contentService.getFile(project, repo, filePath);
+        const entry = await contentService.getFile(project, repo, filePath);
         const revision = entry.revision ?? -1;
 
         try {

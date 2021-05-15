@@ -8,8 +8,7 @@ const sut = new RepositoryService(client);
 
 describe('RepositoryService', () => {
     it('list', async () => {
-        const [repositories, statusCode] = await sut.list('project1');
-        expect(statusCode).toBe(200);
+        const repositories = await sut.list('project1');
         expect(repositories.length).toBe(4);
 
         expect(repositories[0].name).toBe('dogma');

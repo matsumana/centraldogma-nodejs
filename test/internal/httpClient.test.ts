@@ -1,9 +1,9 @@
 import http2 from 'http2';
-import { HttpClient } from '../lib/internal/httpClient';
+import { HttpClient } from '../../lib/internal/httpClient';
 
 const { HTTP2_HEADER_STATUS } = http2.constants;
 
-describe('CentralDogmaClient', () => {
+describe('HttpClient', () => {
     it('request to Central Dogma', async () => {
         const sut = new HttpClient({
             baseURL: 'http://localhost:36462',

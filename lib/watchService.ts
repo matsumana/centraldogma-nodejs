@@ -12,7 +12,6 @@ const {
 const REQUEST_HEADER_PREFER_SECONDS_DEFAULT = 60;
 
 export type WatchResult = {
-    revision: number;
     entry: Entry;
 };
 
@@ -33,7 +32,7 @@ export class WatchService {
     ): Promise<[Entry, EventEmitter]> {
         const emitter = new EventEmitter();
 
-        const [entry] = await this.contentService.getFile(
+        const entry = await this.contentService.getFile(
             project,
             repo,
             filePath
@@ -43,14 +42,14 @@ export class WatchService {
             (async () => {
                 let currentRevision = revision;
                 try {
-                    const [watchResult] = await this.watchFileInner(
+                    const watchResult = await this.watchFileInner(
                         project,
                         repo,
                         filePath,
                         currentRevision,
                         timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
                     );
-                    currentRevision = watchResult.revision;
+                    currentRevision = watchResult.entry.revision ?? -1;
                     emitter.emit('data', watchResult);
                 } catch (e) {
                     // TODO: implement exponential backoff with jitter
@@ -81,7 +80,7 @@ export class WatchService {
         filePath: string,
         revision: number,
         timeoutSeconds?: number
-    ): Promise<[WatchResult, number]> {
+    ): Promise<WatchResult> {
         const path = `/api/v1/projects/${project}/repos/${repo}/contents/${filePath}`;
         const prefer = `wait=${
             timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
@@ -94,14 +93,12 @@ export class WatchService {
         const entry: Entry = response.body
             ? JSON.parse(response.body).entry ?? {}
             : {};
-        const watchResult: WatchResult = {
-            revision: entry.revision ?? -1,
+        return {
             entry,
         };
-        return [watchResult, response.statusCode];
     }
 
-    async watchRepo(): Promise<[WatchResult, number]> {
+    async watchRepo(): Promise<WatchResult> {
         throw new Error('not implemented');
     }
 }

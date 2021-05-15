@@ -21,31 +21,28 @@ export class ProjectService {
         this.httpClient = client;
     }
 
-    async create(): Promise<[Project, number]> {
+    async create(): Promise<Project> {
         throw new Error('not implemented');
     }
 
-    async remove(): Promise<number> {
+    async remove(): Promise<void> {
         throw new Error('not implemented');
     }
 
-    async purge(): Promise<number> {
+    async purge(): Promise<void> {
         throw new Error('not implemented');
     }
 
-    async unremove(): Promise<[Project, number]> {
+    async unremove(): Promise<Project> {
         throw new Error('not implemented');
     }
 
-    async list(): Promise<[Project[], number]> {
+    async list(): Promise<Project[]> {
         const response = await this.httpClient.request(PATH_PROJECT);
-        const projects: Project[] = response.body
-            ? JSON.parse(response.body)
-            : [{}];
-        return [projects, response.statusCode];
+        return response.body ? JSON.parse(response.body) : [{}];
     }
 
-    async listRemoved(): Promise<[Project[], number]> {
+    async listRemoved(): Promise<Project[]> {
         throw new Error('not implemented');
     }
 }
