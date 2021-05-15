@@ -1,6 +1,6 @@
 import http2, { ClientHttp2Session } from 'http2';
 import { OutgoingHttpHeaders } from 'http';
-import { CentralDogmaClientOptions } from '../centralDogma';
+import { CentralDogmaOptions } from '../centralDogma';
 
 const {
     HTTP2_HEADER_PATH,
@@ -20,7 +20,7 @@ export class HttpClient {
     private readonly token: string;
     private readonly session: ClientHttp2Session;
 
-    constructor(opts: CentralDogmaClientOptions) {
+    constructor(opts: CentralDogmaOptions) {
         this.token = opts.token ?? DEFAULT_AUTHORIZATION_TOKEN;
         this.session = http2.connect(opts.baseURL, {});
     }
