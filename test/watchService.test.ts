@@ -48,10 +48,11 @@ describe('WatchService', () => {
         const repo = 'repo2';
         const filePath = '/test6.json';
 
-        const [, emitter] = await sut.watchFile(project, repo, filePath);
+        const [entry, emitter] = await sut.watchFile(project, repo, filePath);
+
+        expect(entry.path).toBe(filePath);
 
         let count = 0;
-
         emitter.on('data', (data) => {
             count++;
             console.log(`data=${JSON.stringify(data)}`);
