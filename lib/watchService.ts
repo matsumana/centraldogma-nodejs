@@ -33,7 +33,7 @@ export class WatchService {
         const emitter = new EventEmitter();
 
         (async () => {
-            // get a current entry
+            // get the current entry
             const entry = await this.contentService.getFile(
                 project,
                 repo,
