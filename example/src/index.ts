@@ -19,7 +19,6 @@ let entry: Entry;
 
 // start watching the file in CentralDogma
 const emitter = centralDogma.watch.watchFile(project, repo, path);
-
 emitter.on('data', (watchResult: WatchResult) => {
     console.log(`entry=${JSON.stringify(watchResult)}`);
     entry = watchResult.entry;
@@ -44,7 +43,7 @@ const listen = () => {
             console.log(`Started (port=${port})`);
         });
     } else {
-        console.log('waiting for receiving config from Central Dogma');
+        console.log('waiting for receiving data from Central Dogma');
         setTimeout(() => listen(), 100);
     }
 };
