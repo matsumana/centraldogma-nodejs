@@ -25,48 +25,54 @@ export class WatchService {
         this.contentService = contentService;
     }
 
-    watchFile(
+    async watchFile(
         project: string,
         repo: string,
         filePath: string,
         timeoutSeconds?: number
-    ): EventEmitter {
+    ): Promise<[Entry, EventEmitter]> {
         const emitter = new EventEmitter();
 
-        setTimeout(() => {
+        const [entry] = await this.contentService.getFile(
+            project,
+            repo,
+            filePath
+        );
+
+        const watch = (revision: number) => {
             (async () => {
-                const [entry] = await this.contentService.getFile(
-                    project,
-                    repo,
-                    filePath
-                );
-                let revision = entry.revision ?? -1;
-
-                // eslint-disable-next-line no-constant-condition
-                while (true) {
-                    try {
-                        const [watchResult] = await this.watchFileInner(
-                            project,
-                            repo,
-                            filePath,
-                            revision,
-                            timeoutSeconds ??
-                                REQUEST_HEADER_PREFER_SECONDS_DEFAULT
-                        );
-
-                        revision = watchResult.revision;
-
-                        emitter.emit('data', watchResult);
-                    } catch (e) {
-                        if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
-                            throw e;
-                        }
+                let currentRevision = revision;
+                try {
+                    const [watchResult] = await this.watchFileInner(
+                        project,
+                        repo,
+                        filePath,
+                        currentRevision,
+                        timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                    );
+                    currentRevision = watchResult.revision;
+                    emitter.emit('data', watchResult);
+                } catch (e) {
+                    // TODO: implement exponential backoff with jitter
+                    if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
+                        emitter.emit('error', e);
                     }
+                } finally {
+                    setImmediate(() => {
+                        watch(currentRevision);
+                    });
                 }
             })();
-        }, 0);
+        };
 
-        return emitter;
+        const currentRevision = entry.revision ?? -1;
+
+        // start watching
+        setImmediate(() => {
+            watch(currentRevision);
+        });
+
+        return [entry, emitter];
     }
 
     private async watchFileInner(
