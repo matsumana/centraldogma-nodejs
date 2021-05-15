@@ -8,8 +8,7 @@ const sut = new ProjectService(client);
 
 describe('ProjectService', () => {
     it('list', async () => {
-        const [projects, statusCode] = await sut.list();
-        expect(statusCode).toBe(200);
+        const projects = await sut.list();
         expect(projects.length).toBe(2);
         expect(projects[0].name).toBe('project1');
         expect(projects[0].url).toBe('/api/v1/projects/project1');

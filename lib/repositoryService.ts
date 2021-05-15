@@ -1,5 +1,5 @@
 import { HttpClient } from './internal/httpClient';
-import { Author, Project } from './projectService';
+import { Author } from './projectService';
 
 export type Repository = {
     name: string;
@@ -20,32 +20,29 @@ export class RepositoryService {
         this.httpClient = client;
     }
 
-    async create(): Promise<[Repository, number]> {
+    async create(): Promise<Repository> {
         throw new Error('not implemented');
     }
 
-    async remove(): Promise<number> {
+    async remove(): Promise<void> {
         throw new Error('not implemented');
     }
 
-    async purge(): Promise<number> {
+    async purge(): Promise<void> {
         throw new Error('not implemented');
     }
 
-    async unremove(): Promise<[Repository, number]> {
+    async unremove(): Promise<Repository> {
         throw new Error('not implemented');
     }
 
-    async list(project: string): Promise<[Repository[], number]> {
+    async list(project: string): Promise<Repository[]> {
         const path = `/api/v1/projects/${project}/repos`;
         const response = await this.httpClient.request(path);
-        const projects: Project[] = response.body
-            ? JSON.parse(response.body)
-            : [{}];
-        return [projects, response.statusCode];
+        return response.body ? JSON.parse(response.body) : [{}];
     }
 
-    async listRemoved(): Promise<[Repository[], number]> {
+    async listRemoved(): Promise<Repository[]> {
         throw new Error('not implemented');
     }
 }

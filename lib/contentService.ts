@@ -47,43 +47,39 @@ export class ContentService {
         this.httpClient = client;
     }
 
-    async listFiles(project: string, repo: string): Promise<[Entry[], number]> {
+    async listFiles(project: string, repo: string): Promise<Entry[]> {
         const path = `/api/v1/projects/${project}/repos/${repo}/contents`;
         const response = await this.httpClient.request(path);
-        const entries: Entry[] = response.body
-            ? JSON.parse(response.body)
-            : [{}];
-        return [entries, response.statusCode];
+        return response.body ? JSON.parse(response.body) : [{}];
     }
 
     async getFile(
         project: string,
         repo: string,
         filePath: string
-    ): Promise<[Entry, number]> {
+    ): Promise<Entry> {
         const path = `/api/v1/projects/${project}/repos/${repo}/contents/${filePath}`;
         const response = await this.httpClient.request(path);
-        const entry: Entry = response.body ? JSON.parse(response.body) : {};
-        return [entry, response.statusCode];
+        return response.body ? JSON.parse(response.body) : {};
     }
 
-    async getFiles(): Promise<[Entry[], number]> {
+    async getFiles(): Promise<Entry[]> {
         throw new Error('not implemented');
     }
 
-    async getHistory(): Promise<[Commit[], number]> {
+    async getHistory(): Promise<Commit[]> {
         throw new Error('not implemented');
     }
 
-    async getDiff(): Promise<[Change, number]> {
+    async getDiff(): Promise<Change> {
         throw new Error('not implemented');
     }
 
-    async getDiffs(): Promise<[Change[], number]> {
+    async getDiffs(): Promise<Change[]> {
         throw new Error('not implemented');
     }
 
-    async push(): Promise<[PushResult, number]> {
+    async push(): Promise<PushResult> {
         throw new Error('not implemented');
     }
 }
