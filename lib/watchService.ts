@@ -24,22 +24,25 @@ export class WatchService {
         this.contentService = contentService;
     }
 
-    async watchFile(
+    watchFile(
         project: string,
         repo: string,
         filePath: string,
         timeoutSeconds?: number
-    ): Promise<[Entry, EventEmitter]> {
+    ): EventEmitter {
         const emitter = new EventEmitter();
 
-        const entry = await this.contentService.getFile(
-            project,
-            repo,
-            filePath
-        );
+        setImmediate(async () => {
+            // get the current entry
+            const entry = await this.contentService.getFile(
+                project,
+                repo,
+                filePath
+            );
+            emitter.emit('data', entry);
 
-        const watch = (revision: number) => {
-            (async () => {
+            // start watching
+            const watch = async (revision: number) => {
                 let currentRevision = revision;
                 try {
                     const watchResult = await this.watchFileInner(
@@ -61,17 +64,14 @@ export class WatchService {
                         watch(currentRevision);
                     });
                 }
-            })();
-        };
-
-        const currentRevision = entry.revision ?? -1;
-
-        // start watching
-        setImmediate(() => {
-            watch(currentRevision);
+            };
+            const currentRevision = entry.revision ?? -1;
+            setImmediate(() => {
+                watch(currentRevision);
+            });
         });
 
-        return [entry, emitter];
+        return emitter;
     }
 
     private async watchFileInner(
