@@ -1,7 +1,7 @@
 import http2 from 'http2';
 import { exec } from 'child_process';
 import { HttpClient } from '../lib/internal/httpClient';
-import { ContentService, WatchService } from '../lib';
+import { ContentService, WatchResult, WatchService } from '../lib';
 
 const { HTTP_STATUS_NOT_MODIFIED } = http2.constants;
 
@@ -51,9 +51,11 @@ describe('WatchService', () => {
         const emitter = await sut.watchFile(project, repo, filePath);
 
         let count = 0;
-        emitter.on('data', (data) => {
+        emitter.on('data', (data: WatchResult) => {
             count++;
             console.log(`data=${JSON.stringify(data)}`);
+
+            expect(data.entry.path).toBe(filePath);
         });
         emitter.on('error', (e) => {
             console.log(`error=${JSON.stringify(e)}`);
