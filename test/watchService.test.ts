@@ -48,13 +48,17 @@ describe('WatchService', () => {
         const repo = 'repo2';
         const filePath = '/test6.json';
 
-        const emitter = sut.watchFile(project, repo, filePath);
+        const [, emitter] = await sut.watchFile(project, repo, filePath);
 
         let count = 0;
 
         emitter.on('data', (data) => {
             count++;
             console.log(`data=${JSON.stringify(data)}`);
+        });
+        emitter.on('error', (e) => {
+            console.log(`error=${JSON.stringify(e)}`);
+            throw e;
         });
 
         setTimeout(() => {
