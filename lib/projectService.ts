@@ -15,10 +15,10 @@ export type Author = {
 };
 
 export class ProjectService {
-    client: HttpClient;
+    private readonly httpClient: HttpClient;
 
     constructor(client: HttpClient) {
-        this.client = client;
+        this.httpClient = client;
     }
 
     async create(): Promise<[Project, number]> {
@@ -38,7 +38,7 @@ export class ProjectService {
     }
 
     async list(): Promise<[Project[], number]> {
-        const response = await this.client.request(PATH_PROJECT);
+        const response = await this.httpClient.request(PATH_PROJECT);
         const projects: Project[] = response.body
             ? JSON.parse(response.body)
             : [{}];

@@ -10,7 +10,7 @@ const {
 
 const DEFAULT_AUTHORIZATION_TOKEN = 'anonymous';
 
-export type CentralDogmaResponse = {
+type CentralDogmaResponse = {
     headers: OutgoingHttpHeaders;
     statusCode: number;
     body: string;

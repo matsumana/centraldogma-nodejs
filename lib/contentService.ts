@@ -41,15 +41,15 @@ export type Change = {
 };
 
 export class ContentService {
-    client: HttpClient;
+    private readonly httpClient: HttpClient;
 
     constructor(client: HttpClient) {
-        this.client = client;
+        this.httpClient = client;
     }
 
     async listFiles(project: string, repo: string): Promise<[Entry[], number]> {
         const path = `/api/v1/projects/${project}/repos/${repo}/contents`;
-        const response = await this.client.request(path);
+        const response = await this.httpClient.request(path);
         const entries: Entry[] = response.body
             ? JSON.parse(response.body)
             : [{}];
@@ -62,7 +62,7 @@ export class ContentService {
         filePath: string
     ): Promise<[Entry, number]> {
         const path = `/api/v1/projects/${project}/repos/${repo}/contents/${filePath}`;
-        const response = await this.client.request(path);
+        const response = await this.httpClient.request(path);
         const entry: Entry = response.body ? JSON.parse(response.body) : {};
         return [entry, response.statusCode];
     }
