@@ -53,13 +53,9 @@ export class ContentService {
         return response.body ? JSON.parse(response.body) : [{}];
     }
 
-    async getFile(
-        project: string,
-        repo: string,
-        filePath: string
-    ): Promise<Entry> {
-        const path = `/api/v1/projects/${project}/repos/${repo}/contents/${filePath}`;
-        const response = await this.httpClient.request(path);
+    async getFile(project: string, repo: string, path: string): Promise<Entry> {
+        const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${path}`;
+        const response = await this.httpClient.request(requestPath);
         return response.body ? JSON.parse(response.body) : {};
     }
 
