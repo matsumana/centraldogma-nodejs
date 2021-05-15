@@ -19,8 +19,8 @@ describe('WatchService', () => {
     it('watchFileInner returns Not Modified(304) response', async () => {
         const project = 'project1';
         const repo = 'repo1';
-        const filePath = '/test1.json';
-        const entry = await contentService.getFile(project, repo, filePath);
+        const path = '/test1.json';
+        const entry = await contentService.getFile(project, repo, path);
         const revision = entry.revision ?? -1;
 
         try {
@@ -31,7 +31,7 @@ describe('WatchService', () => {
             await sut.watchFileInner(
                 project,
                 repo,
-                filePath,
+                path,
                 revision,
                 timeoutSeconds
             );
@@ -46,16 +46,16 @@ describe('WatchService', () => {
     it('watchFile', async () => {
         const project = 'project2';
         const repo = 'repo2';
-        const filePath = '/test6.json';
+        const path = '/test6.json';
 
-        const emitter = await sut.watchFile(project, repo, filePath);
+        const emitter = await sut.watchFile(project, repo, path);
 
         let count = 0;
         emitter.on('data', (data: WatchResult) => {
             count++;
             console.log(`data=${JSON.stringify(data)}`);
 
-            expect(data.entry.path).toBe(filePath);
+            expect(data.entry.path).toBe(path);
         });
         emitter.on('error', (e) => {
             console.log(`error=${JSON.stringify(e)}`);

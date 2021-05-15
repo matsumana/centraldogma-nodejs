@@ -27,7 +27,7 @@ export class WatchService {
     watchFile(
         project: string,
         repo: string,
-        filePath: string,
+        path: string,
         timeoutSeconds?: number
     ): EventEmitter {
         const emitter = new EventEmitter();
@@ -37,7 +37,7 @@ export class WatchService {
             const entry = await this.contentService.getFile(
                 project,
                 repo,
-                filePath
+                path
             );
             const currentEntry: WatchResult = {
                 entry,
@@ -51,7 +51,7 @@ export class WatchService {
                     const watchResult = await this.watchFileInner(
                         project,
                         repo,
-                        filePath,
+                        path,
                         currentRevision,
                         timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
                     );
@@ -80,11 +80,11 @@ export class WatchService {
     private async watchFileInner(
         project: string,
         repo: string,
-        filePath: string,
+        path: string,
         revision: number,
         timeoutSeconds?: number
     ): Promise<WatchResult> {
-        const path = `/api/v1/projects/${project}/repos/${repo}/contents/${filePath}`;
+        const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${path}`;
         const prefer = `wait=${
             timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
         }`;
@@ -92,7 +92,7 @@ export class WatchService {
             [HTTP2_HEADER_IF_NONE_MATCH]: revision,
             [HTTP2_HEADER_PREFER]: prefer,
         };
-        const response = await this.httpClient.request(path, headers);
+        const response = await this.httpClient.request(requestPath, headers);
         const entry: Entry = response.body
             ? JSON.parse(response.body).entry ?? {}
             : {};
