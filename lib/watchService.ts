@@ -32,7 +32,7 @@ export class WatchService {
     ): EventEmitter {
         const emitter = new EventEmitter();
 
-        (async () => {
+        setImmediate(async () => {
             // get the current entry
             const entry = await this.contentService.getFile(
                 project,
@@ -42,37 +42,34 @@ export class WatchService {
             emitter.emit('data', entry);
 
             // start watching
-            const watch = (revision: number) => {
-                (async () => {
-                    let currentRevision = revision;
-                    try {
-                        const watchResult = await this.watchFileInner(
-                            project,
-                            repo,
-                            filePath,
-                            currentRevision,
-                            timeoutSeconds ??
-                                REQUEST_HEADER_PREFER_SECONDS_DEFAULT
-                        );
-                        currentRevision = watchResult.entry.revision ?? -1;
-                        emitter.emit('data', watchResult);
-                    } catch (e) {
-                        // TODO: implement exponential backoff with jitter
-                        if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
-                            emitter.emit('error', e);
-                        }
-                    } finally {
-                        setImmediate(() => {
-                            watch(currentRevision);
-                        });
+            const watch = async (revision: number) => {
+                let currentRevision = revision;
+                try {
+                    const watchResult = await this.watchFileInner(
+                        project,
+                        repo,
+                        filePath,
+                        currentRevision,
+                        timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                    );
+                    currentRevision = watchResult.entry.revision ?? -1;
+                    emitter.emit('data', watchResult);
+                } catch (e) {
+                    // TODO: implement exponential backoff with jitter
+                    if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
+                        emitter.emit('error', e);
                     }
-                })();
+                } finally {
+                    setImmediate(() => {
+                        watch(currentRevision);
+                    });
+                }
             };
             const currentRevision = entry.revision ?? -1;
             setImmediate(() => {
                 watch(currentRevision);
             });
-        })();
+        });
 
         return emitter;
     }
