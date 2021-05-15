@@ -8,26 +8,21 @@ import {
 const baseURL = 'http://localhost:36462';
 const project = 'project2';
 const repo = 'repo2';
-const filePath = '/test6.json';
+const path = '/test6.json';
 
 // setup CentralDogma client
 const centralDogma = new CentralDogma({
     baseURL,
 });
 
-// get a latest file from CentralDogma
-let latestEntry: Entry;
-(async () => {
-    const [entry] = await centralDogma.content.getFile(project, repo, filePath);
-    console.log(`entry=${JSON.stringify(entry)}`);
-    latestEntry = entry;
-})();
+let entry: Entry;
 
 // start watching the file in CentralDogma
-const emitter = centralDogma.watch.watchFile(project, repo, filePath);
+const emitter = centralDogma.watch.watchFile(project, repo, path);
+
 emitter.on('data', (watchResult: WatchResult) => {
     console.log(`entry=${JSON.stringify(watchResult)}`);
-    latestEntry = watchResult.entry;
+    entry = watchResult.entry;
 });
 
 // setup express
@@ -37,9 +32,22 @@ app.get('/', (_req: Request, res: Response) => {
     res.send('It works!');
 });
 app.get('/content', (_req: Request, res: Response) => {
-    console.log(`latestEntry=${JSON.stringify(latestEntry)}`);
-    res.send(latestEntry.content);
+    console.log(`entry=${JSON.stringify(entry)}`);
+    res.send(entry.content);
 });
-app.listen(port, () => {
-    console.log(`Started (port=${port})`);
+
+// listen
+const listen = () => {
+    console.log(`entry=${JSON.stringify(entry)}`);
+    if (entry) {
+        app.listen(port, () => {
+            console.log(`Started (port=${port})`);
+        });
+    } else {
+        console.log('waiting for receiving config from Central Dogma');
+        setTimeout(() => listen(), 100);
+    }
+};
+setImmediate(() => {
+    listen();
 });
