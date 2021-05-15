@@ -5,7 +5,7 @@ import { ProjectService } from './projectService';
 import { RepositoryService } from './repositoryService';
 
 export class CentralDogma {
-    httpClient: HttpClient;
+    private readonly httpClient: HttpClient;
     projectService: ProjectService;
     repositoryService: RepositoryService;
     contentService: ContentService;

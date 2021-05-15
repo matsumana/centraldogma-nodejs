@@ -17,7 +17,7 @@ export type WatchResult = {
 };
 
 export class WatchService {
-    httpClient: HttpClient;
+    private readonly httpClient: HttpClient;
     contentService: ContentService;
 
     constructor(httpClient: HttpClient, contentService: ContentService) {

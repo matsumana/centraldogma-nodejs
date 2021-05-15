@@ -1,5 +1,6 @@
 import { CentralDogma } from './centralDogma';
 import { Author, Project, ProjectService } from './projectService';
+import { RepositoryService } from './repositoryService';
 import {
     Change,
     Commit,
@@ -17,6 +18,8 @@ export {
     Author,
     Project,
     ProjectService,
+    //
+    RepositoryService,
     //
     ContentService,
     Query,
