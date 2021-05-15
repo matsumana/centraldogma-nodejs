@@ -39,8 +39,6 @@ export class WatchService {
                 repo,
                 filePath
             );
-
-            // emit the current entry
             emitter.emit('data', entry);
 
             // start watching
