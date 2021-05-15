@@ -6,10 +6,10 @@ import { RepositoryService } from './repositoryService';
 
 export class CentralDogma {
     private readonly httpClient: HttpClient;
-    projectService: ProjectService;
-    repositoryService: RepositoryService;
-    contentService: ContentService;
-    watchService: WatchService;
+    private readonly projectService: ProjectService;
+    private readonly repositoryService: RepositoryService;
+    private readonly contentService: ContentService;
+    private readonly watchService: WatchService;
 
     constructor(opts: CentralDogmaClientOptions) {
         this.httpClient = new HttpClient(opts);

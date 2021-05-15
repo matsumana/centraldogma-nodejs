@@ -17,8 +17,8 @@ type CentralDogmaResponse = {
 };
 
 export class HttpClient {
-    token: string;
-    session: ClientHttp2Session;
+    private readonly token: string;
+    private readonly session: ClientHttp2Session;
 
     constructor(opts: CentralDogmaClientOptions) {
         this.token = opts.token ?? DEFAULT_AUTHORIZATION_TOKEN;
