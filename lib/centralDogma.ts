@@ -11,7 +11,7 @@ export class CentralDogma {
     private readonly contentService: ContentService;
     private readonly watchService: WatchService;
 
-    constructor(opts: CentralDogmaClientOptions) {
+    constructor(opts: CentralDogmaOptions) {
         this.httpClient = new HttpClient(opts);
         this.projectService = new ProjectService(this.httpClient);
         this.repositoryService = new RepositoryService(this.httpClient);
@@ -39,7 +39,7 @@ export class CentralDogma {
     }
 }
 
-export type CentralDogmaClientOptions = {
+export type CentralDogmaOptions = {
     baseURL: string;
     token?: string;
 };
