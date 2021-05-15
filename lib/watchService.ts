@@ -39,7 +39,10 @@ export class WatchService {
                 repo,
                 filePath
             );
-            emitter.emit('data', entry);
+            const currentEntry: WatchResult = {
+                entry,
+            };
+            emitter.emit('data', currentEntry);
 
             // start watching
             const watch = async (revision: number) => {
