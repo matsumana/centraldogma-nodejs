@@ -48,9 +48,7 @@ describe('WatchService', () => {
         const repo = 'repo2';
         const filePath = '/test6.json';
 
-        const [entry, emitter] = await sut.watchFile(project, repo, filePath);
-
-        expect(entry.path).toBe(filePath);
+        const emitter = await sut.watchFile(project, repo, filePath);
 
         let count = 0;
         emitter.on('data', (data) => {
@@ -74,6 +72,6 @@ describe('WatchService', () => {
 
         await sleep(15_000);
 
-        expect(count).toBe(3);
+        expect(count).toBe(4); // initial entry + updated three times = 4 times
     }, 30_000);
 });

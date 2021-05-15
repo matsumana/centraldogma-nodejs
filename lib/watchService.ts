@@ -24,54 +24,59 @@ export class WatchService {
         this.contentService = contentService;
     }
 
-    async watchFile(
+    watchFile(
         project: string,
         repo: string,
         filePath: string,
         timeoutSeconds?: number
-    ): Promise<[Entry, EventEmitter]> {
+    ): EventEmitter {
         const emitter = new EventEmitter();
 
-        const entry = await this.contentService.getFile(
-            project,
-            repo,
-            filePath
-        );
+        (async () => {
+            // get a current entry
+            const entry = await this.contentService.getFile(
+                project,
+                repo,
+                filePath
+            );
 
-        const watch = (revision: number) => {
-            (async () => {
-                let currentRevision = revision;
-                try {
-                    const watchResult = await this.watchFileInner(
-                        project,
-                        repo,
-                        filePath,
-                        currentRevision,
-                        timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
-                    );
-                    currentRevision = watchResult.entry.revision ?? -1;
-                    emitter.emit('data', watchResult);
-                } catch (e) {
-                    // TODO: implement exponential backoff with jitter
-                    if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
-                        emitter.emit('error', e);
+            // emit the current entry
+            emitter.emit('data', entry);
+
+            // start watching
+            const watch = (revision: number) => {
+                (async () => {
+                    let currentRevision = revision;
+                    try {
+                        const watchResult = await this.watchFileInner(
+                            project,
+                            repo,
+                            filePath,
+                            currentRevision,
+                            timeoutSeconds ??
+                                REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                        );
+                        currentRevision = watchResult.entry.revision ?? -1;
+                        emitter.emit('data', watchResult);
+                    } catch (e) {
+                        // TODO: implement exponential backoff with jitter
+                        if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
+                            emitter.emit('error', e);
+                        }
+                    } finally {
+                        setImmediate(() => {
+                            watch(currentRevision);
+                        });
                     }
-                } finally {
-                    setImmediate(() => {
-                        watch(currentRevision);
-                    });
-                }
-            })();
-        };
+                })();
+            };
+            const currentRevision = entry.revision ?? -1;
+            setImmediate(() => {
+                watch(currentRevision);
+            });
+        })();
 
-        const currentRevision = entry.revision ?? -1;
-
-        // start watching
-        setImmediate(() => {
-            watch(currentRevision);
-        });
-
-        return [entry, emitter];
+        return emitter;
     }
 
     private async watchFileInner(
