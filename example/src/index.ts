@@ -5,23 +5,34 @@ import {
     WatchResult,
 } from '@matsumana/centraldogma-nodejs';
 
-const baseURL = 'http://localhost:36462';
-const project = 'project2';
-const repo = 'repo2';
-const path = '/test6.json';
+const RECEIVE_DATA_CHECK_INTERVAL = 100;
+const STARTUP_TIMEOUT = 3_000;
+
+const CENTRAL_DOGMA_BASE_URL = 'http://localhost:36462';
+const CENTRAL_DOGMA_PROJECT = 'project2';
+const CENTRAL_DOGMA_REPO = 'repo2';
+const CENTRAL_DOGMA_PATH = '/test6.json';
 
 // setup CentralDogma client
 const centralDogma = new CentralDogma({
-    baseURL,
+    baseURL: CENTRAL_DOGMA_BASE_URL,
 });
 
 let entry: Entry;
 
 // start watching the file in CentralDogma
-const emitter = centralDogma.watch.watchFile(project, repo, path);
+const emitter = centralDogma.watch.watchFile(
+    CENTRAL_DOGMA_PROJECT,
+    CENTRAL_DOGMA_REPO,
+    CENTRAL_DOGMA_PATH
+);
 emitter.on('data', (watchResult: WatchResult) => {
-    console.log(`entry=${JSON.stringify(watchResult)}`);
+    console.log(`received entry=${JSON.stringify(watchResult)}`);
     entry = watchResult.entry;
+});
+emitter.on('error', (e) => {
+    console.log(`error=${JSON.stringify(e)}`);
+    throw e;
 });
 
 // setup express
@@ -31,20 +42,27 @@ app.get('/', (_req: Request, res: Response) => {
     res.send('It works!');
 });
 app.get('/content', (_req: Request, res: Response) => {
-    console.log(`entry=${JSON.stringify(entry)}`);
+    console.log(`current entry=${JSON.stringify(entry)}`);
     res.send(entry.content);
 });
 
 // listen
+let waiting = 0;
 const listen = () => {
-    console.log(`entry=${JSON.stringify(entry)}`);
+    console.log(`current entry=${JSON.stringify(entry)}`);
     if (entry) {
         app.listen(port, () => {
             console.log(`Started (port=${port})`);
         });
     } else {
+        if (waiting > STARTUP_TIMEOUT) {
+            throw Error('Could not receive data from Central Dogma');
+        }
+
         console.log('waiting for receiving data from Central Dogma');
-        setTimeout(() => listen(), 100);
+
+        waiting += RECEIVE_DATA_CHECK_INTERVAL;
+        setTimeout(() => listen(), RECEIVE_DATA_CHECK_INTERVAL);
     }
 };
 setImmediate(() => {
