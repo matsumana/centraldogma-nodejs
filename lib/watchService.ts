@@ -92,9 +92,9 @@ export class WatchService {
             [HTTP2_HEADER_IF_NONE_MATCH]: revision,
             [HTTP2_HEADER_PREFER]: prefer,
         };
-        const response = await this.httpClient.request(requestPath, headers);
-        const entry: Entry = response.body
-            ? JSON.parse(response.body).entry ?? {}
+        const response = await this.httpClient.get(requestPath, headers);
+        const entry: Entry = response.data
+            ? JSON.parse(response.data).entry ?? {}
             : {};
         return {
             entry,

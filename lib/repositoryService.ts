@@ -38,8 +38,8 @@ export class RepositoryService {
 
     async list(project: string): Promise<Repository[]> {
         const path = `/api/v1/projects/${project}/repos`;
-        const response = await this.httpClient.request(path);
-        return response.body ? JSON.parse(response.body) : [{}];
+        const response = await this.httpClient.get(path);
+        return response.data ? JSON.parse(response.data) : [{}];
     }
 
     async listRemoved(): Promise<Repository[]> {

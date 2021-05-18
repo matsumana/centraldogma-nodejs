@@ -49,14 +49,14 @@ export class ContentService {
 
     async listFiles(project: string, repo: string): Promise<Entry[]> {
         const path = `/api/v1/projects/${project}/repos/${repo}/contents`;
-        const response = await this.httpClient.request(path);
-        return response.body ? JSON.parse(response.body) : [{}];
+        const response = await this.httpClient.get(path);
+        return response.data ? JSON.parse(response.data) : [{}];
     }
 
     async getFile(project: string, repo: string, path: string): Promise<Entry> {
         const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${path}`;
-        const response = await this.httpClient.request(requestPath);
-        return response.body ? JSON.parse(response.body) : {};
+        const response = await this.httpClient.get(requestPath);
+        return response.data ? JSON.parse(response.data) : {};
     }
 
     async getFiles(): Promise<Entry[]> {

@@ -3,6 +3,11 @@ import { OutgoingHttpHeaders } from 'http';
 import { CentralDogmaOptions } from '../centralDogma';
 
 const {
+    HTTP2_HEADER_METHOD,
+    HTTP2_METHOD_GET,
+    HTTP2_METHOD_POST,
+    HTTP2_HEADER_CONTENT_TYPE,
+    HTTP2_HEADER_CONTENT_LENGTH,
     HTTP2_HEADER_PATH,
     HTTP2_HEADER_STATUS,
     HTTP2_HEADER_AUTHORIZATION,
@@ -13,7 +18,7 @@ const DEFAULT_AUTHORIZATION_TOKEN = 'anonymous';
 type CentralDogmaResponse = {
     headers: OutgoingHttpHeaders;
     statusCode: number;
-    body: string;
+    data: string;
 };
 
 export class HttpClient {
@@ -25,19 +30,51 @@ export class HttpClient {
         this.session = http2.connect(opts.baseURL, {});
     }
 
-    async request(path: string, requestHeaders?: OutgoingHttpHeaders) {
+    async get(
+        path: string,
+        requestHeaders?: OutgoingHttpHeaders
+    ): Promise<CentralDogmaResponse> {
+        return this.request(HTTP2_METHOD_GET, path, {}, requestHeaders);
+    }
+
+    async post(
+        path: string,
+        body?: Record<string, unknown>,
+        requestHeaders?: OutgoingHttpHeaders
+    ): Promise<CentralDogmaResponse> {
+        return this.request(HTTP2_METHOD_POST, path, body, requestHeaders);
+    }
+
+    private async request(
+        method: string,
+        path: string,
+        body?: Record<string, unknown>,
+        requestHeaders?: OutgoingHttpHeaders
+    ) {
         return new Promise<CentralDogmaResponse>((resolve, reject) => {
             const defaultHeaders = {
+                [HTTP2_HEADER_METHOD]: method,
                 [HTTP2_HEADER_AUTHORIZATION]: `Bearer ${this.token}`,
                 [HTTP2_HEADER_PATH]: path,
             };
+            const buffer = Buffer.from(JSON.stringify(body));
+            const postHeaders =
+                method === HTTP2_METHOD_POST
+                    ? {
+                          [HTTP2_HEADER_CONTENT_TYPE]: 'application/json',
+                          [HTTP2_HEADER_CONTENT_LENGTH]: Buffer.byteLength(
+                              buffer
+                          ),
+                      }
+                    : {};
             const stream = this.session.request({
                 ...defaultHeaders,
+                ...postHeaders,
                 ...(requestHeaders ?? {}),
             });
             stream.on('response', (responseHeaders) => {
-                let body = '';
-                stream.on('data', (chunk) => (body += chunk.toString()));
+                let data = '';
+                stream.on('data', (chunk) => (data += chunk.toString()));
                 stream.on('end', () => {
                     const statusCode = Number(
                         responseHeaders[HTTP2_HEADER_STATUS]
@@ -45,7 +82,7 @@ export class HttpClient {
                     const response: CentralDogmaResponse = {
                         headers: responseHeaders,
                         statusCode: statusCode,
-                        body: body,
+                        data: data,
                     };
                     if (statusCode >= 200 && statusCode <= 299) {
                         resolve(response);
@@ -53,6 +90,15 @@ export class HttpClient {
                         reject(response);
                     }
                 });
+            });
+
+            if (method === HTTP2_METHOD_POST) {
+                stream.setEncoding('utf8');
+                stream.end(buffer);
+            }
+
+            stream.on('error', (err) => {
+                reject(err);
             });
         });
     }
