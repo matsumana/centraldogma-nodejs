@@ -9,7 +9,7 @@ describe('HttpClient', () => {
             baseURL: 'http://localhost:36462',
         });
 
-        const response = await sut.request('/');
+        const response = await sut.get('/');
 
         expect(response.headers[HTTP2_HEADER_STATUS]).toBe(200);
     });

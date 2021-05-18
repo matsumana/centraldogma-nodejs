@@ -21,8 +21,9 @@ export class ProjectService {
         this.httpClient = client;
     }
 
-    async create(): Promise<Project> {
-        throw new Error('not implemented');
+    async create(name: string): Promise<Project> {
+        const response = await this.httpClient.post(PATH_PROJECT, { name });
+        return response.data ? JSON.parse(response.data) : {};
     }
 
     async remove(): Promise<void> {
@@ -38,8 +39,8 @@ export class ProjectService {
     }
 
     async list(): Promise<Project[]> {
-        const response = await this.httpClient.request(PATH_PROJECT);
-        return response.body ? JSON.parse(response.body) : [{}];
+        const response = await this.httpClient.get(PATH_PROJECT);
+        return response.data ? JSON.parse(response.data) : [{}];
     }
 
     async listRemoved(): Promise<Project[]> {
