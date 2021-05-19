@@ -6,6 +6,7 @@ const {
     HTTP2_HEADER_METHOD,
     HTTP2_METHOD_GET,
     HTTP2_METHOD_POST,
+    HTTP2_METHOD_DELETE,
     HTTP2_HEADER_CONTENT_TYPE,
     HTTP2_HEADER_CONTENT_LENGTH,
     HTTP2_HEADER_PATH,
@@ -45,6 +46,13 @@ export class HttpClient {
         return this.request(HTTP2_METHOD_POST, path, body, requestHeaders);
     }
 
+    async delete(
+        project: string,
+        requestHeaders?: OutgoingHttpHeaders
+    ): Promise<CentralDogmaResponse> {
+        return this.request(HTTP2_METHOD_DELETE, project, {}, requestHeaders);
+    }
+
     private async request(
         method: string,
         path: string,
@@ -72,6 +80,7 @@ export class HttpClient {
                 ...postHeaders,
                 ...(requestHeaders ?? {}),
             });
+
             stream.on('response', (responseHeaders) => {
                 let data = '';
                 stream.on('data', (chunk) => (data += chunk.toString()));
@@ -91,15 +100,14 @@ export class HttpClient {
                     }
                 });
             });
+            stream.on('error', (err) => {
+                reject(err);
+            });
 
             if (method === HTTP2_METHOD_POST) {
                 stream.setEncoding('utf8');
                 stream.end(buffer);
             }
-
-            stream.on('error', (err) => {
-                reject(err);
-            });
         });
     }
 }

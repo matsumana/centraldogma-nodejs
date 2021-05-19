@@ -26,8 +26,8 @@ export class ProjectService {
         return response.data ? JSON.parse(response.data) : {};
     }
 
-    async remove(): Promise<void> {
-        throw new Error('not implemented');
+    async remove(name: string): Promise<void> {
+        await this.httpClient.delete(`${PATH_PROJECT}/${name}`);
     }
 
     async purge(): Promise<void> {

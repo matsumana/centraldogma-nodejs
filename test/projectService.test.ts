@@ -24,4 +24,19 @@ describe('ProjectService', () => {
         expect(projects[1].name).toBe('project2');
         expect(projects[1].url).toBe('/api/v1/projects/project2');
     });
+    it('remove', async () => {
+        const random = Math.random();
+        const projectName = `project_${random}`;
+
+        await sut.create(projectName);
+        const beforeProjects = await sut.list();
+        const beforeCount = beforeProjects.length;
+
+        await sut.remove(projectName);
+
+        const afterProjects = await sut.list();
+        const afterCount = afterProjects.length;
+
+        expect(beforeCount - afterCount).toBe(1);
+    });
 });
