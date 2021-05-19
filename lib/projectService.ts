@@ -34,8 +34,13 @@ export class ProjectService {
         throw new Error('not implemented');
     }
 
-    async unremove(): Promise<Project> {
-        throw new Error('not implemented');
+    async unRemove(name: string): Promise<Project> {
+        const body = [{ op: 'replace', path: '/status', value: 'active' }];
+        const response = await this.httpClient.patch(
+            `${PATH_PROJECT}/${name}`,
+            body
+        );
+        return response.data ? JSON.parse(response.data) : {};
     }
 
     async list(): Promise<Project[]> {
