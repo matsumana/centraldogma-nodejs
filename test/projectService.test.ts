@@ -24,19 +24,38 @@ describe('ProjectService', () => {
         expect(projects[1].name).toBe('project2');
         expect(projects[1].url).toBe('/api/v1/projects/project2');
     });
-    it('remove', async () => {
+    it('remove and unRemove', async () => {
         const random = Math.random();
         const projectName = `project_${random}`;
 
+        // origin
+        const projectsOrigin = await sut.list();
+        const countOrigin = projectsOrigin.length;
+
+        // add one project
         await sut.create(projectName);
-        const beforeProjects = await sut.list();
-        const beforeCount = beforeProjects.length;
+        const projectsAfterAdded = await sut.list();
+        const countAfterAdded = projectsAfterAdded.length;
+        expect(countAfterAdded - countOrigin).toBe(1);
 
+        // remove the added project
         await sut.remove(projectName);
+        const projectsAfterRemoved = await sut.list();
+        const countAfterRemoved = projectsAfterRemoved.length;
+        expect(countAfterRemoved).toBe(countOrigin);
 
-        const afterProjects = await sut.list();
-        const afterCount = afterProjects.length;
+        // unRemove the removed project
+        const projectUnRemoved = await sut.unRemove(projectName);
+        expect(projectUnRemoved.name).toBe(projectName);
+        expect(projectUnRemoved.createdAt).toBeTruthy();
+        expect(projectUnRemoved.creator?.name).toBe('System');
+        expect(projectUnRemoved.creator?.email).toBe(
+            'system@localhost.localdomain'
+        );
 
-        expect(beforeCount - afterCount).toBe(1);
-    });
+        // compare with the origin
+        const projectsAfterUnRemoved = await sut.list();
+        const countAfterUnRemoved = projectsAfterUnRemoved.length;
+        expect(countAfterUnRemoved).toBe(countAfterAdded);
+    }, 60_000);
 });
