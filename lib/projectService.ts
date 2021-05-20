@@ -30,8 +30,8 @@ export class ProjectService {
         await this.httpClient.delete(`${PATH_PROJECT}/${name}`);
     }
 
-    async purge(): Promise<void> {
-        throw new Error('not implemented');
+    async purge(name: string): Promise<void> {
+        await this.httpClient.delete(`${PATH_PROJECT}/${name}/removed`);
     }
 
     async unRemove(name: string): Promise<Project> {
