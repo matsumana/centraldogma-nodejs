@@ -16,6 +16,7 @@ describe('ProjectService', () => {
         expect(project.creator?.name).toBe('System');
         expect(project.creator?.email).toBe('system@localhost.localdomain');
     });
+
     it('list', async () => {
         const projects = await sut.list();
         expect(projects.length).toBeGreaterThanOrEqual(2); // initial test data has two projects
@@ -24,6 +25,7 @@ describe('ProjectService', () => {
         expect(projects[1].name).toBe('project2');
         expect(projects[1].url).toBe('/api/v1/projects/project2');
     });
+
     it('remove and unRemove', async () => {
         const random = Math.random();
         const projectName = `project_${random}`;
@@ -58,4 +60,30 @@ describe('ProjectService', () => {
         const countAfterUnRemoved = projectsAfterUnRemoved.length;
         expect(countAfterUnRemoved).toBe(countAfterAdded);
     }, 60_000);
+
+    it('listRemoved', async () => {
+        const random = Math.random();
+        const projectName = `project_${random}`;
+
+        // add one project
+        await sut.create(projectName);
+        await sut.list();
+        const projectsBeforeRemoved = await sut.listRemoved();
+        expect(
+            projectsBeforeRemoved
+                .map((project) => project.name)
+                .includes(projectName)
+        ).toBe(false);
+
+        // remove the added project
+        await sut.remove(projectName);
+        await sut.list();
+
+        const projectsAfterRemoved = await sut.listRemoved();
+        expect(
+            projectsAfterRemoved
+                .map((project) => project.name)
+                .includes(projectName)
+        ).toBe(true);
+    });
 });

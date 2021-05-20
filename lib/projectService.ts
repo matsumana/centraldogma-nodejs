@@ -49,6 +49,9 @@ export class ProjectService {
     }
 
     async listRemoved(): Promise<Project[]> {
-        throw new Error('not implemented');
+        const response = await this.httpClient.get(
+            `${PATH_PROJECT}?status=removed`
+        );
+        return response.data ? JSON.parse(response.data) : [{}];
     }
 }
