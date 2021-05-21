@@ -55,7 +55,7 @@ describe('ProjectService', () => {
             'system@localhost.localdomain'
         );
 
-        // compare with the origin
+        // compare with the count of after added
         const projectsAfterUnRemoved = await sut.list();
         const countAfterUnRemoved = projectsAfterUnRemoved.length;
         expect(countAfterUnRemoved).toBe(countAfterAdded);

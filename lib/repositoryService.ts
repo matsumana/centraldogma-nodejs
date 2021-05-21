@@ -40,8 +40,13 @@ export class RepositoryService {
         throw new Error('not implemented');
     }
 
-    async unremove(): Promise<Repository> {
-        throw new Error('not implemented');
+    async unRemove(project: string, repo: string): Promise<Repository> {
+        const body = [{ op: 'replace', path: '/status', value: 'active' }];
+        const response = await this.httpClient.patch(
+            `${PATH_PREFIX}/${project}/repos/${repo}`,
+            body
+        );
+        return response.data ? JSON.parse(response.data) : {};
     }
 
     async list(project: string): Promise<Repository[]> {
