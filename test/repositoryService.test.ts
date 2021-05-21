@@ -1,18 +1,15 @@
 import { HttpClient } from '../lib/internal/httpClient';
-import { ProjectService, RepositoryService } from '../lib';
+import { RepositoryService } from '../lib';
 
 const client = new HttpClient({
     baseURL: 'http://localhost:36462',
 });
-const projectService = new ProjectService(client);
 const sut = new RepositoryService(client);
 
 describe('RepositoryService', () => {
     it('create', async () => {
         const random = Math.random();
-        const projectName = `project_${random}`;
-        await projectService.create(projectName);
-
+        const projectName = 'project3';
         const repoName = `repo_${random}`;
         const repo = await sut.create(projectName, repoName);
         expect(repo.name).toBe(repoName);
@@ -42,5 +39,26 @@ describe('RepositoryService', () => {
         expect(repositories[3].url).toBe(
             '/api/v1/projects/project1/repos/repo2'
         );
+    });
+
+    it('remove', async () => {
+        // origin
+        const projectName = 'project3';
+        const reposOrigin = await sut.list(projectName);
+        const countOrigin = reposOrigin.length;
+
+        // add a new repo
+        const random = Math.random();
+        const repoName = `repo_${random}`;
+        await sut.create(projectName, repoName);
+        const reposAfterAdded = await sut.list(projectName);
+        const countAfterAdded = reposAfterAdded.length;
+        expect(countAfterAdded - countOrigin).toBe(1);
+
+        // remove the added project
+        await sut.remove(projectName, repoName);
+        const reposAfterRemoved = await sut.list(projectName);
+        const countAfterRemoved = reposAfterRemoved.length;
+        expect(countAfterRemoved).toBe(countOrigin);
     });
 });
