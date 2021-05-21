@@ -67,7 +67,6 @@ describe('ProjectService', () => {
 
         // add a new project
         await sut.create(projectName);
-        await sut.list();
         const projectsBeforeRemoved = await sut.listRemoved();
         expect(
             projectsBeforeRemoved
@@ -77,7 +76,6 @@ describe('ProjectService', () => {
 
         // remove the added project
         await sut.remove(projectName);
-        await sut.list();
 
         const projectsAfterRemoved = await sut.listRemoved();
         expect(

@@ -75,4 +75,24 @@ describe('RepositoryService', () => {
         const countAfterUnRemoved = reposAfterUnRemoved.length;
         expect(countAfterUnRemoved).toBe(countAfterAdded);
     });
+
+    it('listRemoved', async () => {
+        // add a new repo
+        const projectName = 'project3';
+        const random = Math.random();
+        const repoName = `repo_${random}`;
+        await sut.create(projectName, repoName);
+        const reposBeforeRemoved = await sut.listRemoved(projectName);
+        expect(
+            reposBeforeRemoved.map((repo) => repo.name).includes(repoName)
+        ).toBe(false);
+
+        // remove the added repo
+        await sut.remove(projectName, repoName);
+
+        const reposAfterRemoved = await sut.listRemoved(projectName);
+        expect(
+            reposAfterRemoved.map((repo) => repo.name).includes(repoName)
+        ).toBe(true);
+    });
 });

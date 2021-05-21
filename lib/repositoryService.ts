@@ -50,12 +50,16 @@ export class RepositoryService {
     }
 
     async list(project: string): Promise<Repository[]> {
-        const path = `${PATH_PREFIX}/${project}/repos`;
-        const response = await this.httpClient.get(path);
+        const response = await this.httpClient.get(
+            `${PATH_PREFIX}/${project}/repos`
+        );
         return response.data ? JSON.parse(response.data) : [{}];
     }
 
-    async listRemoved(): Promise<Repository[]> {
-        throw new Error('not implemented');
+    async listRemoved(project: string): Promise<Repository[]> {
+        const response = await this.httpClient.get(
+            `${PATH_PREFIX}/${project}/repos?status=removed`
+        );
+        return response.data ? JSON.parse(response.data) : [{}];
     }
 }
