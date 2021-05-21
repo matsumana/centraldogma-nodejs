@@ -41,7 +41,7 @@ describe('RepositoryService', () => {
         );
     });
 
-    it('remove', async () => {
+    it('remove and unRemove', async () => {
         // origin
         const projectName = 'project3';
         const reposOrigin = await sut.list(projectName);
@@ -60,5 +60,19 @@ describe('RepositoryService', () => {
         const reposAfterRemoved = await sut.list(projectName);
         const countAfterRemoved = reposAfterRemoved.length;
         expect(countAfterRemoved).toBe(countOrigin);
+
+        // unRemove the removed project
+        const repoUnRemoved = await sut.unRemove(projectName, repoName);
+        expect(repoUnRemoved.name).toBe(repoName);
+        expect(repoUnRemoved.createdAt).toBeTruthy();
+        expect(repoUnRemoved.creator?.name).toBe('admin');
+        expect(repoUnRemoved.creator?.email).toBe(
+            'admin@localhost.localdomain'
+        );
+
+        // compare with the count of after added
+        const reposAfterUnRemoved = await sut.list(projectName);
+        const countAfterUnRemoved = reposAfterUnRemoved.length;
+        expect(countAfterUnRemoved).toBe(countAfterAdded);
     });
 });
