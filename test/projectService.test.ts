@@ -86,4 +86,30 @@ describe('ProjectService', () => {
                 .includes(projectName)
         ).toBe(true);
     });
+
+    it('purge', async () => {
+        const random = Math.random();
+        const projectName = `project_${random}`;
+
+        // origin
+        const projectsOrigin = await sut.list();
+        const countOrigin = projectsOrigin.length;
+
+        // add one project
+        await sut.create(projectName);
+        const projectsAfterAdded = await sut.list();
+        const countAfterAdded = projectsAfterAdded.length;
+        expect(countAfterAdded - countOrigin).toBe(1);
+
+        // remove the added project
+        await sut.remove(projectName);
+
+        // purge the removed project
+        await sut.purge(projectName);
+
+        // compare with the origin
+        const projectsAfterPurge = await sut.list();
+        const countAfterPurge = projectsAfterPurge.length;
+        expect(countAfterPurge).toBe(countOrigin);
+    });
 });
