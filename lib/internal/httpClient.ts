@@ -49,19 +49,19 @@ export class HttpClient {
     }
 
     async delete(
-        project: string,
+        path: string,
         requestHeaders?: OutgoingHttpHeaders
     ): Promise<CentralDogmaResponse> {
         const body = {};
-        return this.request(HTTP2_METHOD_DELETE, project, body, requestHeaders);
+        return this.request(HTTP2_METHOD_DELETE, path, body, requestHeaders);
     }
 
     async patch(
-        project: string,
+        path: string,
         body?: unknown,
         requestHeaders?: OutgoingHttpHeaders
     ): Promise<CentralDogmaResponse> {
-        return this.request(HTTP2_METHOD_PATCH, project, body, requestHeaders);
+        return this.request(HTTP2_METHOD_PATCH, path, body, requestHeaders);
     }
 
     private async request(
@@ -104,8 +104,8 @@ export class HttpClient {
                     );
                     const response: CentralDogmaResponse = {
                         headers: responseHeaders,
-                        statusCode: statusCode,
-                        data: data,
+                        statusCode,
+                        data,
                     };
                     if (statusCode >= 200 && statusCode <= 299) {
                         resolve(response);

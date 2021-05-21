@@ -1,6 +1,8 @@
 import { HttpClient } from './internal/httpClient';
 import { Author } from './projectService';
 
+const PATH_PREFIX = '/api/v1/projects';
+
 export type Repository = {
     name: string;
     creator?: Author;
@@ -20,8 +22,14 @@ export class RepositoryService {
         this.httpClient = client;
     }
 
-    async create(): Promise<Repository> {
-        throw new Error('not implemented');
+    async create(project: string, repo: string): Promise<Repository> {
+        const response = await this.httpClient.post(
+            `${PATH_PREFIX}/${project}/repos`,
+            {
+                name: repo,
+            }
+        );
+        return response.data ? JSON.parse(response.data) : {};
     }
 
     async remove(): Promise<void> {
@@ -37,7 +45,7 @@ export class RepositoryService {
     }
 
     async list(project: string): Promise<Repository[]> {
-        const path = `/api/v1/projects/${project}/repos`;
+        const path = `${PATH_PREFIX}/${project}/repos`;
         const response = await this.httpClient.get(path);
         return response.data ? JSON.parse(response.data) : [{}];
     }

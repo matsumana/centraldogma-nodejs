@@ -21,23 +21,25 @@ export class ProjectService {
         this.httpClient = client;
     }
 
-    async create(name: string): Promise<Project> {
-        const response = await this.httpClient.post(PATH_PROJECT, { name });
+    async create(project: string): Promise<Project> {
+        const response = await this.httpClient.post(PATH_PROJECT, {
+            name: project,
+        });
         return response.data ? JSON.parse(response.data) : {};
     }
 
-    async remove(name: string): Promise<void> {
-        await this.httpClient.delete(`${PATH_PROJECT}/${name}`);
+    async remove(project: string): Promise<void> {
+        await this.httpClient.delete(`${PATH_PROJECT}/${project}`);
     }
 
-    async purge(name: string): Promise<void> {
-        await this.httpClient.delete(`${PATH_PROJECT}/${name}/removed`);
+    async purge(project: string): Promise<void> {
+        await this.httpClient.delete(`${PATH_PROJECT}/${project}/removed`);
     }
 
-    async unRemove(name: string): Promise<Project> {
+    async unRemove(project: string): Promise<Project> {
         const body = [{ op: 'replace', path: '/status', value: 'active' }];
         const response = await this.httpClient.patch(
-            `${PATH_PROJECT}/${name}`,
+            `${PATH_PROJECT}/${project}`,
             body
         );
         return response.data ? JSON.parse(response.data) : {};
