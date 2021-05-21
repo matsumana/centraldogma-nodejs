@@ -36,8 +36,10 @@ export class RepositoryService {
         await this.httpClient.delete(`${PATH_PREFIX}/${project}/repos/${repo}`);
     }
 
-    async purge(): Promise<void> {
-        throw new Error('not implemented');
+    async purge(project: string, repo: string): Promise<void> {
+        await this.httpClient.delete(
+            `${PATH_PREFIX}/${project}/repos/${repo}/removed`
+        );
     }
 
     async unRemove(project: string, repo: string): Promise<Repository> {

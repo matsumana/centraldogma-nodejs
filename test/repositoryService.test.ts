@@ -95,4 +95,31 @@ describe('RepositoryService', () => {
             reposAfterRemoved.map((repo) => repo.name).includes(repoName)
         ).toBe(true);
     });
+
+    it('purge', async () => {
+        const projectName = 'project3';
+        const random = Math.random();
+        const repoName = `repo_${random}`;
+
+        // origin
+        const reposOrigin = await sut.list(projectName);
+        const countOrigin = reposOrigin.length;
+
+        // add a new repo
+        await sut.create(projectName, repoName);
+        const reposAfterAdded = await sut.list(projectName);
+        const countAfterAdded = reposAfterAdded.length;
+        expect(countAfterAdded - countOrigin).toBe(1);
+
+        // remove the added repo
+        await sut.remove(projectName, repoName);
+
+        // purge the removed repo
+        await sut.purge(projectName, repoName);
+
+        // compare with the origin
+        const reposAfterPurge = await sut.list(projectName);
+        const countAfterPurge = reposAfterPurge.length;
+        expect(countAfterPurge).toBe(countOrigin);
+    });
 });
