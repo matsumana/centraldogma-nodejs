@@ -34,7 +34,7 @@ describe('ProjectService', () => {
         const projectsOrigin = await sut.list();
         const countOrigin = projectsOrigin.length;
 
-        // add one project
+        // add a new project
         await sut.create(projectName);
         const projectsAfterAdded = await sut.list();
         const countAfterAdded = projectsAfterAdded.length;
@@ -59,13 +59,13 @@ describe('ProjectService', () => {
         const projectsAfterUnRemoved = await sut.list();
         const countAfterUnRemoved = projectsAfterUnRemoved.length;
         expect(countAfterUnRemoved).toBe(countAfterAdded);
-    }, 60_000);
+    });
 
     it('listRemoved', async () => {
         const random = Math.random();
         const projectName = `project_${random}`;
 
-        // add one project
+        // add a new project
         await sut.create(projectName);
         await sut.list();
         const projectsBeforeRemoved = await sut.listRemoved();
@@ -95,7 +95,7 @@ describe('ProjectService', () => {
         const projectsOrigin = await sut.list();
         const countOrigin = projectsOrigin.length;
 
-        // add one project
+        // add a new project
         await sut.create(projectName);
         const projectsAfterAdded = await sut.list();
         const countAfterAdded = projectsAfterAdded.length;

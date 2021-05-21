@@ -32,8 +32,8 @@ export class RepositoryService {
         return response.data ? JSON.parse(response.data) : {};
     }
 
-    async remove(): Promise<void> {
-        throw new Error('not implemented');
+    async remove(project: string, repo: string): Promise<void> {
+        await this.httpClient.delete(`${PATH_PREFIX}/${project}/repos/${repo}`);
     }
 
     async purge(): Promise<void> {
