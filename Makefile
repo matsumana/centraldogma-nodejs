@@ -44,6 +44,18 @@ setup-test-data:
 	  -H 'Content-Type: application/json' \
 	  -d @test/data/project1_repo2_content1.json \
   	  http://localhost:36462/api/v0/projects/project1/repositories/repo2/files/revisions/head
+	# project1 - repo2 - content2
+	curl -X POST \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project1_repo2_content2.json \
+  	  http://localhost:36462/api/v0/projects/project1/repositories/repo2/files/revisions/head
+	# project1 - repo2 - content3
+	curl -X POST \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project1_repo2_content3.json \
+  	  http://localhost:36462/api/v0/projects/project1/repositories/repo2/files/revisions/head
 	# ----------
 	# project2
 	curl -X POST \

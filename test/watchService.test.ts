@@ -46,7 +46,7 @@ describe('WatchService', () => {
     it('watchFile', async () => {
         const project = 'project2';
         const repo = 'repo2';
-        const path = '/test6.json';
+        const path = '/test8.json';
 
         const emitter = await sut.watchFile(project, repo, path);
 

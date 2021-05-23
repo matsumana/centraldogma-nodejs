@@ -1,12 +1,12 @@
 {
     "file": {
-        "name": "test4.json",
+        "name": "test6.json",
         "type": "JSON",
-        "path": "/test4.json",
+        "path": "/test6.json",
         "content": "{\"field1\": \"qux\"}"
     },
     "commitMessage": {
-        "summary": "Add /test4.json",
+        "summary": "Add /test6.json",
         "detail": {
             "content": "",
             "markup": "PLAINTEXT"
