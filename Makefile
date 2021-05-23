@@ -120,3 +120,7 @@ update-test-data:
 	  -H 'Content-Type: application/json' \
 	  -d @test/data/project2_repo2_content2_update3.json \
 	  http://localhost:36462/api/v0/projects/project2/repositories/repo2/files/revisions/head
+
+.PHONY: clean-build
+clean-build:
+	yarn clean && yarn fix && yarn lint && yarn test && yarn build

@@ -47,6 +47,49 @@ describe('ContentService without nested directory', () => {
         );
     });
 
+    it('listFiles with revision 3', async () => {
+        const entries = await sut.listFiles(
+            'project1',
+            'repo1',
+            '/test*.json',
+            3
+        );
+
+        // in revision 3, `/test1.json` and `/test2.json` are included
+        // Can see it in Central Dogma's WebUI too
+        // http://localhost:36462/#/projects/project1/repos/repo1/list/3/
+        expect(entries.length).toBe(2);
+        expect(entries[0].path).toBe('/test1.json');
+        expect(entries[0].type).toBe('JSON');
+        expect(entries[0].url).toBe(
+            '/api/v1/projects/project1/repos/repo1/contents/test1.json'
+        );
+        expect(entries[1].path).toBe('/test2.json');
+        expect(entries[1].type).toBe('JSON');
+        expect(entries[1].url).toBe(
+            '/api/v1/projects/project1/repos/repo1/contents/test2.json'
+        );
+    });
+
+    it('listFiles with revision 2', async () => {
+        const entries = await sut.listFiles(
+            'project1',
+            'repo1',
+            '/test*.json',
+            2
+        );
+
+        // in revision 2, `/test2.json` is not included
+        // Can see it in Central Dogma's WebUI too
+        // http://localhost:36462/#/projects/project1/repos/repo1/list/2/
+        expect(entries.length).toBe(1);
+        expect(entries[0].path).toBe('/test1.json');
+        expect(entries[0].type).toBe('JSON');
+        expect(entries[0].url).toBe(
+            '/api/v1/projects/project1/repos/repo1/contents/test1.json'
+        );
+    });
+
     it('getFile', async () => {
         const entry = await sut.getFile('project1', 'repo1', '/test1.json');
         expect(entry.path).toBe('/test1.json');
