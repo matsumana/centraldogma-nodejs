@@ -47,8 +47,21 @@ export class ContentService {
         this.httpClient = client;
     }
 
-    async listFiles(project: string, repo: string): Promise<Entry[]> {
-        const path = `/api/v1/projects/${project}/repos/${repo}/contents`;
+    async listFiles(
+        project: string,
+        repo: string,
+        pathPattern?: string,
+        revision?: number
+    ): Promise<Entry[]> {
+        if (!pathPattern) {
+            pathPattern = '/**';
+        } else {
+            if (!pathPattern.startsWith('/')) {
+                pathPattern = '/**/' + pathPattern;
+            }
+        }
+        const query = revision ? `?revision=${revision}` : '';
+        const path = `/api/v1/projects/${project}/repos/${repo}/list${pathPattern}${query}`;
         const response = await this.httpClient.get(path);
         return response.data ? JSON.parse(response.data) : [{}];
     }
