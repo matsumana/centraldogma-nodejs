@@ -1,7 +1,7 @@
 import http2 from 'http2';
 import { EventEmitter } from 'events';
 import { HttpClient } from './internal/httpClient';
-import { ContentService, Entry } from './contentService';
+import { ContentService, Entry, QueryTypes } from './contentService';
 
 const {
     HTTP2_HEADER_IF_NONE_MATCH,
@@ -34,11 +34,10 @@ export class WatchService {
 
         setImmediate(async () => {
             // get the current entry
-            const entry = await this.contentService.getFile(
-                project,
-                repo,
-                path
-            );
+            const entry = await this.contentService.getFile(project, repo, {
+                path,
+                type: QueryTypes.Identity,
+            });
             const currentEntry: WatchResult = {
                 entry,
             };

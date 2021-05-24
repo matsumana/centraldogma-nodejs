@@ -1,10 +1,16 @@
 import { HttpClient } from './internal/httpClient';
 import { Author } from './projectService';
 
+export const QueryTypes = {
+    Identity: 1,
+    JSONPath: 2,
+} as const;
+export type QueryType = typeof QueryTypes[keyof typeof QueryTypes];
+
 export type Query = {
     path: string;
-    type: number;
-    expressions: string[];
+    type: QueryType;
+    expressions?: string[];
 };
 
 export type Entry = {
@@ -53,27 +59,41 @@ export class ContentService {
         pathPattern?: string,
         revision?: number
     ): Promise<Entry[]> {
-        if (!pathPattern) {
-            pathPattern = '/**';
-        } else {
-            if (!pathPattern.startsWith('/')) {
-                pathPattern = '/**/' + pathPattern;
-            }
-        }
-        const query = revision ? `?revision=${revision}` : '';
-        const path = `/api/v1/projects/${project}/repos/${repo}/list${pathPattern}${query}`;
-        const response = await this.httpClient.get(path);
-        return response.data ? JSON.parse(response.data) : [{}];
+        return await this.filesInner(
+            'list',
+            project,
+            repo,
+            pathPattern,
+            revision
+        );
     }
 
-    async getFile(project: string, repo: string, path: string): Promise<Entry> {
-        const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${path}`;
+    async getFile(
+        project: string,
+        repo: string,
+        query: Query,
+        revision?: number
+    ): Promise<Entry> {
+        // TODO add support jsonpath
+        const revisionQuery = revision ? `?revision=${revision}` : '';
+        const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${query.path}${revisionQuery}`;
         const response = await this.httpClient.get(requestPath);
         return response.data ? JSON.parse(response.data) : {};
     }
 
-    async getFiles(): Promise<Entry[]> {
-        throw new Error('not implemented');
+    async getFiles(
+        project: string,
+        repo: string,
+        pathPattern?: string,
+        revision?: number
+    ): Promise<Entry[]> {
+        return await this.filesInner(
+            'contents',
+            project,
+            repo,
+            pathPattern,
+            revision
+        );
     }
 
     async getHistory(): Promise<Commit[]> {
@@ -90,5 +110,26 @@ export class ContentService {
 
     async push(): Promise<PushResult> {
         throw new Error('not implemented');
+    }
+
+    private async filesInner(
+        action: string,
+        project: string,
+        repo: string,
+        pathPattern?: string,
+        revision?: number
+    ): Promise<Entry[]> {
+        if (!pathPattern) {
+            pathPattern = '/**';
+        } else {
+            if (!pathPattern.startsWith('/')) {
+                pathPattern = '/**/' + pathPattern;
+            }
+        }
+        const revisionQuery = revision ? `?revision=${revision}` : '';
+        const path = `/api/v1/projects/${project}/repos/${repo}/${action}${pathPattern}${revisionQuery}`;
+        const response = await this.httpClient.get(path);
+        const data = response.data ? JSON.parse(response.data) : [{}];
+        return Array.isArray(data) ? data : [data];
     }
 }
