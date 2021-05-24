@@ -2,6 +2,7 @@ import http2 from 'http2';
 import { exec } from 'child_process';
 import { HttpClient } from '../lib/internal/httpClient';
 import { ContentService, WatchResult, WatchService } from '../lib';
+import { QueryTypes } from '../lib/contentService';
 
 const { HTTP_STATUS_NOT_MODIFIED } = http2.constants;
 
@@ -20,7 +21,10 @@ describe('WatchService', () => {
         const project = 'project1';
         const repo = 'repo1';
         const path = '/test1.json';
-        const entry = await contentService.getFile(project, repo, path);
+        const entry = await contentService.getFile(project, repo, {
+            path,
+            type: QueryTypes.Identity,
+        });
         const revision = entry.revision ?? -1;
 
         try {
