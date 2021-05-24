@@ -117,7 +117,6 @@ describe('ContentService with nested directory', () => {
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
 
-        expect(entries.length).toBe(4);
         expect(entries[2].path).toBe('/dir1/test5.json');
         expect(entries[2].type).toBe('JSON');
         expect(entries[2].url).toBe(
