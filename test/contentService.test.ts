@@ -7,7 +7,7 @@ const client = new HttpClient({
 });
 const sut = new ContentService(client);
 
-describe('ContentService without nested directory', () => {
+describe('ContentService#listFiles without nested directory', () => {
     it('listFiles without pathPattern', async () => {
         const entries = await sut.listFiles('project1', 'repo1');
         expect(entries.length).toBe(2);
@@ -45,6 +45,21 @@ describe('ContentService without nested directory', () => {
         expect(entries[0].type).toBe('JSON');
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
+        );
+    });
+
+    it('listFiles with file path without dir', async () => {
+        const entries = await sut.listFiles('project1', 'repo1', 'test*.json');
+        expect(entries.length).toBe(2);
+        expect(entries[0].path).toBe('/test1.json');
+        expect(entries[0].type).toBe('JSON');
+        expect(entries[0].url).toBe(
+            '/api/v1/projects/project1/repos/repo1/contents/test1.json'
+        );
+        expect(entries[1].path).toBe('/test2.json');
+        expect(entries[1].type).toBe('JSON');
+        expect(entries[1].url).toBe(
+            '/api/v1/projects/project1/repos/repo1/contents/test2.json'
         );
     });
 
@@ -90,7 +105,9 @@ describe('ContentService without nested directory', () => {
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
     });
+});
 
+describe('ContentService#getFiles without nested directory', () => {
     it('getFiles without pathPattern', async () => {
         const entries = await sut.getFiles('project1', 'repo1');
         expect(entries.length).toBe(2);
@@ -133,6 +150,23 @@ describe('ContentService without nested directory', () => {
         expect(entries[0].content).toEqual({ field1: 'foo' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
+        );
+    });
+
+    it('getFiles with file path without dir', async () => {
+        const entries = await sut.getFiles('project1', 'repo1', 'test*.json');
+        expect(entries.length).toBe(2);
+        expect(entries[0].path).toBe('/test1.json');
+        expect(entries[0].type).toBe('JSON');
+        expect(entries[0].content).toEqual({ field1: 'foo' });
+        expect(entries[0].url).toBe(
+            '/api/v1/projects/project1/repos/repo1/contents/test1.json'
+        );
+        expect(entries[1].path).toBe('/test2.json');
+        expect(entries[1].type).toBe('JSON');
+        expect(entries[1].content).toEqual({ field1: 'bar' });
+        expect(entries[1].url).toBe(
+            '/api/v1/projects/project1/repos/repo1/contents/test2.json'
         );
     });
 
@@ -181,20 +215,9 @@ describe('ContentService without nested directory', () => {
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
     });
-
-    it('getFile', async () => {
-        const entry = await sut.getFile('project1', 'repo1', {
-            path: '/test1.json',
-            type: QueryTypes.Identity,
-        });
-        expect(entry.path).toBe('/test1.json');
-        expect(entry.content).toEqual({
-            field1: 'foo',
-        });
-    });
 });
 
-describe('ContentService with nested directory', () => {
+describe('ContentService#listFiles with nested directory', () => {
     it('listFiles without pathPattern', async () => {
         const entries = await sut.listFiles('project1', 'repo2');
         expect(entries.length).toBe(4);
@@ -259,6 +282,28 @@ describe('ContentService with nested directory', () => {
         );
     });
 
+    it('listFiles with file path without dir', async () => {
+        const entries = await sut.listFiles('project1', 'repo2', 'test*.json');
+        expect(entries.length).toBe(3);
+        expect(entries[0].path).toBe('/dir1/test4.json');
+        expect(entries[0].type).toBe('JSON');
+        expect(entries[0].url).toBe(
+            '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
+        );
+        expect(entries[1].path).toBe('/dir1/test5.json');
+        expect(entries[1].type).toBe('JSON');
+        expect(entries[1].url).toBe(
+            '/api/v1/projects/project1/repos/repo2/contents/dir1/test5.json'
+        );
+        expect(entries[2].path).toBe('/test3.json');
+        expect(entries[2].type).toBe('JSON');
+        expect(entries[2].url).toBe(
+            '/api/v1/projects/project1/repos/repo2/contents/test3.json'
+        );
+    });
+});
+
+describe('ContentService#getFiles with nested directory', () => {
     it('getFiles without pathPattern', async () => {
         const entries = await sut.getFiles('project1', 'repo2');
         expect(entries.length).toBe(4);
@@ -328,5 +373,41 @@ describe('ContentService with nested directory', () => {
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
+    });
+
+    it('getFiles with file path without dir', async () => {
+        const entries = await sut.getFiles('project1', 'repo2', 'test*.json');
+        expect(entries.length).toBe(3);
+        expect(entries[0].path).toBe('/dir1/test4.json');
+        expect(entries[0].type).toBe('JSON');
+        expect(entries[0].content).toEqual({ field1: 'test4.json in dir1' });
+        expect(entries[0].url).toBe(
+            '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
+        );
+        expect(entries[1].path).toBe('/dir1/test5.json');
+        expect(entries[1].type).toBe('JSON');
+        expect(entries[1].content).toEqual({ field1: 'test5.json in dir1' });
+        expect(entries[1].url).toBe(
+            '/api/v1/projects/project1/repos/repo2/contents/dir1/test5.json'
+        );
+        expect(entries[2].path).toBe('/test3.json');
+        expect(entries[2].type).toBe('JSON');
+        expect(entries[2].content).toEqual({ field1: 'baz' });
+        expect(entries[2].url).toBe(
+            '/api/v1/projects/project1/repos/repo2/contents/test3.json'
+        );
+    });
+});
+
+describe('ContentService#getFile', () => {
+    it('getFile', async () => {
+        const entry = await sut.getFile('project1', 'repo1', {
+            path: '/test1.json',
+            type: QueryTypes.Identity,
+        });
+        expect(entry.path).toBe('/test1.json');
+        expect(entry.content).toEqual({
+            field1: 'foo',
+        });
     });
 });
