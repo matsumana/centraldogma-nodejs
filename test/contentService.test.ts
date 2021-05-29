@@ -414,51 +414,51 @@ describe('ContentService#getFile', () => {
 
 describe('ContentService#getHistory with nested directory', () => {
     it('get HEAD revision without "from" from "/**"', async () => {
-        const entries = await sut.getHistory({
+        const commits = await sut.getHistory({
             project: 'project1',
             repo: 'repo2',
             to: 'HEAD',
         });
 
         // if you call the function without "from", it returns one commit
-        expect(entries.length).toBe(1);
-        expect(entries[0].revision).toBe(4);
-        expect(entries[0].author).toEqual({
+        expect(commits.length).toBe(1);
+        expect(commits[0].revision).toBe(4);
+        expect(commits[0].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[0].commitMessage).toEqual({
+        expect(commits[0].commitMessage).toEqual({
             summary: 'Add /test5.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[0].pushedAt).toBeTruthy();
+        expect(commits[0].pushedAt).toBeTruthy();
     });
 
     it('get specific revision without "from" from "/**"', async () => {
-        const entries = await sut.getHistory({
+        const commits = await sut.getHistory({
             project: 'project1',
             repo: 'repo2',
             to: '4',
         });
 
         // if you call the function without "from", it returns one commit
-        expect(entries.length).toBe(1);
-        expect(entries[0].revision).toBe(4);
-        expect(entries[0].author).toEqual({
+        expect(commits.length).toBe(1);
+        expect(commits[0].revision).toBe(4);
+        expect(commits[0].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[0].commitMessage).toEqual({
+        expect(commits[0].commitMessage).toEqual({
             summary: 'Add /test5.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[0].pushedAt).toBeTruthy();
+        expect(commits[0].pushedAt).toBeTruthy();
     });
 
     it('get between specific revision and HEAD from "/**"', async () => {
-        const entries = await sut.getHistory({
+        const commits = await sut.getHistory({
             project: 'project1',
             repo: 'repo2',
             from: '1',
@@ -466,50 +466,50 @@ describe('ContentService#getHistory with nested directory', () => {
         });
 
         // if you call the function with "from", it returns multiple commits
-        expect(entries.length).toBe(3);
+        expect(commits.length).toBe(3);
 
         // 1st
-        expect(entries[0].revision).toBe(4);
-        expect(entries[0].author).toEqual({
+        expect(commits[0].revision).toBe(4);
+        expect(commits[0].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[0].commitMessage).toEqual({
+        expect(commits[0].commitMessage).toEqual({
             summary: 'Add /test5.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[0].pushedAt).toBeTruthy();
+        expect(commits[0].pushedAt).toBeTruthy();
 
         // 2nd
-        expect(entries[1].revision).toBe(3);
-        expect(entries[1].author).toEqual({
+        expect(commits[1].revision).toBe(3);
+        expect(commits[1].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[1].commitMessage).toEqual({
+        expect(commits[1].commitMessage).toEqual({
             summary: 'Add /test4.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[1].pushedAt).toBeTruthy();
+        expect(commits[1].pushedAt).toBeTruthy();
 
         // 3rd
-        expect(entries[2].revision).toBe(2);
-        expect(entries[2].author).toEqual({
+        expect(commits[2].revision).toBe(2);
+        expect(commits[2].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[2].commitMessage).toEqual({
+        expect(commits[2].commitMessage).toEqual({
             summary: 'Add /test3.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[1].pushedAt).toBeTruthy();
+        expect(commits[1].pushedAt).toBeTruthy();
     });
 
     it('get between specific revision and specific revision from "/**"', async () => {
-        const entries = await sut.getHistory({
+        const commits = await sut.getHistory({
             project: 'project1',
             repo: 'repo2',
             from: '1',
@@ -517,50 +517,50 @@ describe('ContentService#getHistory with nested directory', () => {
         });
 
         // if you call the function with "from", it returns multiple commits
-        expect(entries.length).toBe(3);
+        expect(commits.length).toBe(3);
 
         // 1st
-        expect(entries[0].revision).toBe(4);
-        expect(entries[0].author).toEqual({
+        expect(commits[0].revision).toBe(4);
+        expect(commits[0].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[0].commitMessage).toEqual({
+        expect(commits[0].commitMessage).toEqual({
             summary: 'Add /test5.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[0].pushedAt).toBeTruthy();
+        expect(commits[0].pushedAt).toBeTruthy();
 
         // 2nd
-        expect(entries[1].revision).toBe(3);
-        expect(entries[1].author).toEqual({
+        expect(commits[1].revision).toBe(3);
+        expect(commits[1].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[1].commitMessage).toEqual({
+        expect(commits[1].commitMessage).toEqual({
             summary: 'Add /test4.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[1].pushedAt).toBeTruthy();
+        expect(commits[1].pushedAt).toBeTruthy();
 
         // 3rd
-        expect(entries[2].revision).toBe(2);
-        expect(entries[2].author).toEqual({
+        expect(commits[2].revision).toBe(2);
+        expect(commits[2].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[2].commitMessage).toEqual({
+        expect(commits[2].commitMessage).toEqual({
             summary: 'Add /test3.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[1].pushedAt).toBeTruthy();
+        expect(commits[1].pushedAt).toBeTruthy();
     });
 
     it('get HEAD revision from the specific directory', async () => {
-        const entries = await sut.getHistory({
+        const commits = await sut.getHistory({
             project: 'project1',
             repo: 'repo2',
             pathPattern: '/dir1/*',
@@ -568,22 +568,22 @@ describe('ContentService#getHistory with nested directory', () => {
         });
 
         // if you call the function without "from", it returns one commit
-        expect(entries.length).toBe(1);
-        expect(entries[0].revision).toBe(4);
-        expect(entries[0].author).toEqual({
+        expect(commits.length).toBe(1);
+        expect(commits[0].revision).toBe(4);
+        expect(commits[0].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[0].commitMessage).toEqual({
+        expect(commits[0].commitMessage).toEqual({
             summary: 'Add /test5.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[0].pushedAt).toBeTruthy();
+        expect(commits[0].pushedAt).toBeTruthy();
     });
 
     it('get between specific revision and HEAD from the specific directory', async () => {
-        const entries = await sut.getHistory({
+        const commits = await sut.getHistory({
             project: 'project1',
             repo: 'repo2',
             pathPattern: '/dir1/*',
@@ -592,37 +592,37 @@ describe('ContentService#getHistory with nested directory', () => {
         });
 
         // if you call the function with "from", it returns multiple commits
-        expect(entries.length).toBe(2);
+        expect(commits.length).toBe(2);
 
         // 1st
-        expect(entries[0].revision).toBe(4);
-        expect(entries[0].author).toEqual({
+        expect(commits[0].revision).toBe(4);
+        expect(commits[0].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[0].commitMessage).toEqual({
+        expect(commits[0].commitMessage).toEqual({
             summary: 'Add /test5.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[0].pushedAt).toBeTruthy();
+        expect(commits[0].pushedAt).toBeTruthy();
 
         // 2nd
-        expect(entries[1].revision).toBe(3);
-        expect(entries[1].author).toEqual({
+        expect(commits[1].revision).toBe(3);
+        expect(commits[1].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[1].commitMessage).toEqual({
+        expect(commits[1].commitMessage).toEqual({
             summary: 'Add /test4.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[1].pushedAt).toBeTruthy();
+        expect(commits[1].pushedAt).toBeTruthy();
     });
 
     it('get HEAD revision from the specific file', async () => {
-        const entries = await sut.getHistory({
+        const commits = await sut.getHistory({
             project: 'project1',
             repo: 'repo2',
             pathPattern: '/dir1/test5.json',
@@ -630,22 +630,22 @@ describe('ContentService#getHistory with nested directory', () => {
         });
 
         // if you call the function without "from", it returns one commit
-        expect(entries.length).toBe(1);
-        expect(entries[0].revision).toBe(4);
-        expect(entries[0].author).toEqual({
+        expect(commits.length).toBe(1);
+        expect(commits[0].revision).toBe(4);
+        expect(commits[0].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[0].commitMessage).toEqual({
+        expect(commits[0].commitMessage).toEqual({
             summary: 'Add /test5.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[0].pushedAt).toBeTruthy();
+        expect(commits[0].pushedAt).toBeTruthy();
     });
 
     it('get specific revision from the specific file', async () => {
-        const entries = await sut.getHistory({
+        const commits = await sut.getHistory({
             project: 'project1',
             repo: 'repo2',
             pathPattern: '/dir1/test4.json',
@@ -653,17 +653,69 @@ describe('ContentService#getHistory with nested directory', () => {
         });
 
         // if you call the function without "from", it returns one commit
-        expect(entries.length).toBe(1);
-        expect(entries[0].revision).toBe(3);
-        expect(entries[0].author).toEqual({
+        expect(commits.length).toBe(1);
+        expect(commits[0].revision).toBe(3);
+        expect(commits[0].author).toEqual({
             name: 'admin',
             email: 'admin@localhost.localdomain',
         });
-        expect(entries[0].commitMessage).toEqual({
+        expect(commits[0].commitMessage).toEqual({
             summary: 'Add /test4.json',
             detail: '',
             markup: 'PLAINTEXT',
         });
-        expect(entries[0].pushedAt).toBeTruthy();
+        expect(commits[0].pushedAt).toBeTruthy();
+    });
+});
+
+describe('ContentService#getDiffs', () => {
+    it('get between specific revision and HEAD from "/**"', async () => {
+        const changes = await sut.getDiffs({
+            project: 'project1',
+            repo: 'repo2',
+            from: '1',
+            to: 'HEAD',
+        });
+
+        expect(changes.length).toBe(3);
+
+        // 1st
+        expect(changes[0].path).toBe('/dir1/test4.json');
+        expect(changes[0].type).toBe('UPSERT_JSON');
+        expect(changes[0].content).toEqual({
+            field1: 'test4.json in dir1',
+        });
+
+        // 2nd
+        expect(changes[1].path).toBe('/dir1/test5.json');
+        expect(changes[1].type).toBe('UPSERT_JSON');
+        expect(changes[1].content).toEqual({
+            field1: 'test5.json in dir1',
+        });
+
+        // 3rd
+        expect(changes[2].path).toBe('/test3.json');
+        expect(changes[2].type).toBe('UPSERT_JSON');
+        expect(changes[2].content).toEqual({
+            field1: 'baz',
+        });
+    });
+
+    it('get between specific revision and specific revision from the specific directory', async () => {
+        const changes = await sut.getDiffs({
+            project: 'project1',
+            repo: 'repo2',
+            pathPattern: '/dir1/*',
+            from: '3',
+            to: 'HEAD',
+        });
+
+        expect(changes.length).toBe(1);
+
+        expect(changes[0].path).toBe('/dir1/test5.json');
+        expect(changes[0].type).toBe('UPSERT_JSON');
+        expect(changes[0].content).toEqual({
+            field1: 'test5.json in dir1',
+        });
     });
 });
