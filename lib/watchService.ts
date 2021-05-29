@@ -45,14 +45,14 @@ export class WatchService {
 
         setImmediate(async () => {
             // get the current entry
-            const entry = await this.contentService.getFile(
-                params.project,
-                params.repo,
-                {
+            const entry = await this.contentService.getFile({
+                project: params.project,
+                repo: params.repo,
+                query: {
                     path: params.filePath,
                     type: QueryTypes.Identity,
-                }
-            );
+                },
+            });
             const currentEntry: WatchResult = {
                 revision: entry.revision ?? 1,
                 entry,

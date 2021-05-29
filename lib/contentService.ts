@@ -29,6 +29,27 @@ export const EntryTypes = {
 } as const;
 export type EntryType = typeof EntryTypes[keyof typeof EntryTypes];
 
+export type ParamsListFiles = {
+    project: string;
+    repo: string;
+    pathPattern?: string;
+    revision?: number;
+};
+
+export type ParamsGetFile = {
+    project: string;
+    repo: string;
+    query: Query;
+    revision?: number;
+};
+
+export type ParamsGetFiles = {
+    project: string;
+    repo: string;
+    pathPattern?: string;
+    revision?: number;
+};
+
 export type ParamsGetHistory = {
     project: string;
     repo: string;
@@ -100,46 +121,33 @@ export class ContentService {
         this.httpClient = client;
     }
 
-    async listFiles(
-        project: string,
-        repo: string,
-        pathPattern?: string,
-        revision?: number
-    ): Promise<Entry[]> {
+    async listFiles(params: ParamsListFiles): Promise<Entry[]> {
         return await this.filesInner(
             'list',
-            project,
-            repo,
-            pathPattern,
-            revision
+            params.project,
+            params.repo,
+            params.pathPattern,
+            params.revision
         );
     }
 
-    async getFile(
-        project: string,
-        repo: string,
-        query: Query,
-        revision?: number
-    ): Promise<Entry> {
+    async getFile(params: ParamsGetFile): Promise<Entry> {
         // TODO add support jsonpath
-        const revisionQuery = revision ? `?revision=${revision}` : '';
-        const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${query.path}${revisionQuery}`;
+        const revisionQuery = params.revision
+            ? `?revision=${params.revision}`
+            : '';
+        const requestPath = `/api/v1/projects/${params.project}/repos/${params.repo}/contents/${params.query.path}${revisionQuery}`;
         const response = await this.httpClient.get(requestPath);
         return response.data ? JSON.parse(response.data) : null;
     }
 
-    async getFiles(
-        project: string,
-        repo: string,
-        pathPattern?: string,
-        revision?: number
-    ): Promise<Entry[]> {
+    async getFiles(params: ParamsGetFiles): Promise<Entry[]> {
         return await this.filesInner(
             'contents',
-            project,
-            repo,
-            pathPattern,
-            revision
+            params.project,
+            params.repo,
+            params.pathPattern,
+            params.revision
         );
     }
 
