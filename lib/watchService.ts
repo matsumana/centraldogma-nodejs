@@ -11,7 +11,23 @@ const {
 
 const REQUEST_HEADER_PREFER_SECONDS_DEFAULT = 60;
 
+export type ParamsWatchFile = {
+    project: string;
+    repo: string;
+    filePath: string;
+    timeoutSeconds?: number;
+};
+
+export type ParamsWatchRepo = {
+    project: string;
+    repo: string;
+    pathPattern: string;
+    lastKnownRevision: number;
+    timeoutSeconds?: number;
+};
+
 export type WatchResult = {
+    revision: number;
     entry: Entry;
 };
 
@@ -24,21 +40,21 @@ export class WatchService {
         this.contentService = contentService;
     }
 
-    watchFile(
-        project: string,
-        repo: string,
-        path: string,
-        timeoutSeconds?: number
-    ): EventEmitter {
+    watchFile(params: ParamsWatchFile): EventEmitter {
         const emitter = new EventEmitter();
 
         setImmediate(async () => {
             // get the current entry
-            const entry = await this.contentService.getFile(project, repo, {
-                path,
-                type: QueryTypes.Identity,
-            });
+            const entry = await this.contentService.getFile(
+                params.project,
+                params.repo,
+                {
+                    path: params.filePath,
+                    type: QueryTypes.Identity,
+                }
+            );
             const currentEntry: WatchResult = {
+                revision: entry.revision ?? 1,
                 entry,
             };
             emitter.emit('data', currentEntry);
@@ -48,13 +64,14 @@ export class WatchService {
                 let currentRevision = revision;
                 try {
                     const watchResult = await this.watchFileInner(
-                        project,
-                        repo,
-                        path,
+                        params.project,
+                        params.repo,
+                        params.filePath,
                         currentRevision,
-                        timeoutSeconds ?? REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                        params.timeoutSeconds ??
+                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT
                     );
-                    currentRevision = watchResult.entry.revision ?? -1;
+                    currentRevision = watchResult.revision;
                     emitter.emit('data', watchResult);
                 } catch (e) {
                     // TODO: implement exponential backoff with jitter
@@ -70,6 +87,43 @@ export class WatchService {
             const currentRevision = entry.revision ?? -1;
             setImmediate(() => {
                 watch(currentRevision);
+            });
+        });
+
+        return emitter;
+    }
+
+    watchRepo(params: ParamsWatchRepo): EventEmitter {
+        const emitter = new EventEmitter();
+
+        setImmediate(async () => {
+            // start watching
+            const watch = async (revision: number) => {
+                let currentRevision = revision;
+                try {
+                    const watchResult = await this.watchFileInner(
+                        params.project,
+                        params.repo,
+                        params.pathPattern,
+                        currentRevision,
+                        params.timeoutSeconds ??
+                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                    );
+                    currentRevision = watchResult.revision;
+                    emitter.emit('data', watchResult);
+                } catch (e) {
+                    // TODO: implement exponential backoff with jitter
+                    if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
+                        emitter.emit('error', e);
+                    }
+                } finally {
+                    setImmediate(() => {
+                        watch(currentRevision);
+                    });
+                }
+            };
+            setImmediate(() => {
+                watch(params.lastKnownRevision);
             });
         });
 
@@ -92,15 +146,6 @@ export class WatchService {
             [HTTP2_HEADER_PREFER]: prefer,
         };
         const response = await this.httpClient.get(requestPath, headers);
-        const entry: Entry = response.data
-            ? JSON.parse(response.data).entry ?? {}
-            : {};
-        return {
-            entry,
-        };
-    }
-
-    async watchRepo(): Promise<WatchResult> {
-        throw new Error('not implemented');
+        return response.data ? JSON.parse(response.data) : {};
     }
 }

@@ -1,0 +1,16 @@
+{
+    "file": {
+        "revision": "HEAD",
+        "name": "a.json",
+        "type": "JSON",
+        "path": "/a.json",
+        "content": "{\"field1\": \"foo2\"}"
+    },
+    "commitMessage": {
+        "summary": "Edit /a.json",
+        "detail": {
+            "content": "",
+            "markup": "PLAINTEXT"
+        }
+    }
+}

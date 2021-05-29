@@ -107,9 +107,22 @@ setup-test-data:
 	  -H 'Content-Type: application/json' \
 	  -d @test/data/project4.json \
 	  http://localhost:36462/api/v1/projects
+	# ----------
+	# project5
+	curl -X POST \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project5.json \
+	  http://localhost:36462/api/v1/projects
+	# project5 - repo1
+	curl -X POST \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project5_repo1.json \
+	  http://localhost:36462/api/v1/projects/project5/repos
 
-.PHONY: update-test-data
-update-test-data:
+.PHONY: update-test-data-for-watchFile
+update-test-data-for-watchFile:
 	curl -X PUT \
 	  -H 'Authorization: Bearer anonymous' \
 	  -H 'Content-Type: application/json' \
@@ -127,6 +140,33 @@ update-test-data:
 	  -H 'Content-Type: application/json' \
 	  -d @test/data/project2_repo2_content2_update3.json \
 	  http://localhost:36462/api/v0/projects/project2/repositories/repo2/files/revisions/head
+
+.PHONY: update-test-data-for-watchRepo
+update-test-data-for-watchRepo:
+	# project5 - repo1 - content1
+	curl -X POST \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project5_repo1_content1.json \
+  	  http://localhost:36462/api/v0/projects/project5/repositories/repo1/files/revisions/head
+	sleep 3
+	curl -X PUT \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project5_repo1_content1_update1.json \
+	  http://localhost:36462/api/v0/projects/project5/repositories/repo1/files/revisions/head
+	sleep 3
+	curl -X PUT \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project5_repo1_content1_update2.json \
+	  http://localhost:36462/api/v0/projects/project5/repositories/repo1/files/revisions/head
+	sleep 3
+	curl -X PUT \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project5_repo1_content1_update3.json \
+	  http://localhost:36462/api/v0/projects/project5/repositories/repo1/files/revisions/head
 
 .PHONY: clean-build
 clean-build:
