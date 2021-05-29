@@ -1,8 +1,8 @@
-import http2 from 'http2';
+import { constants as http2constants } from 'http2';
 import { HttpClient } from './internal/httpClient';
 import { Author } from './projectService';
 
-const { HTTP_STATUS_OK } = http2.constants;
+const { HTTP_STATUS_OK } = http2constants;
 
 export const QueryTypes = {
     Identity: 1,

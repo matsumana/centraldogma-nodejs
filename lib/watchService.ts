@@ -1,4 +1,4 @@
-import http2 from 'http2';
+import { constants as http2constants } from 'http2';
 import { EventEmitter } from 'events';
 import { HttpClient } from './internal/httpClient';
 import { ContentService, Entry, QueryTypes } from './contentService';
@@ -7,7 +7,7 @@ const {
     HTTP2_HEADER_IF_NONE_MATCH,
     HTTP2_HEADER_PREFER,
     HTTP_STATUS_NOT_MODIFIED,
-} = http2.constants;
+} = http2constants;
 
 const REQUEST_HEADER_PREFER_SECONDS_DEFAULT = 60;
 

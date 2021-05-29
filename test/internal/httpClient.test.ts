@@ -1,7 +1,7 @@
-import http2 from 'http2';
+import { constants as http2constants } from 'http2';
 import { HttpClient } from '../../lib/internal/httpClient';
 
-const { HTTP2_HEADER_STATUS } = http2.constants;
+const { HTTP2_HEADER_STATUS } = http2constants;
 
 describe('HttpClient', () => {
     it('request to Central Dogma', async () => {
