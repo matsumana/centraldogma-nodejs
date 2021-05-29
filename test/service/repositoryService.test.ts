@@ -1,5 +1,5 @@
-import { HttpClient } from '../lib/internal/httpClient';
-import { RepositoryService } from '../lib';
+import { HttpClient } from '../../lib/internal/httpClient';
+import { RepositoryService } from '../../lib';
 
 const client = new HttpClient({
     baseURL: 'http://localhost:36462',

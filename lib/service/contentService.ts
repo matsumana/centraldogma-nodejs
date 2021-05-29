@@ -1,33 +1,13 @@
 import { constants as http2constants } from 'http2';
-import { HttpClient } from './internal/httpClient';
-import { Author } from './projectService';
+import { HttpClient } from '../internal/httpClient';
+import { CommitMessage } from '../type/commitMessage';
+import { Entry } from '../type/entry';
+import { Change } from '../type/change';
+import { Query } from '../type/query';
+import { Commit } from '../type/commit';
+import { PushResult } from '../type/pushResult';
 
 const { HTTP_STATUS_OK } = http2constants;
-
-export const QueryTypes = {
-    Identity: 1,
-    // TODO add support jsonpath
-    // JSONPath: 2,
-} as const;
-export type QueryType = typeof QueryTypes[keyof typeof QueryTypes];
-
-export const ChangeTypes = {
-    UpsertJson: 'UPSERT_JSON',
-    UpsertText: 'UPSERT_TEXT',
-    Remove: 'REMOVE',
-    Rename: 'RENAME',
-    // TODO add support patch
-    // ApplyJsonPatch: 'APPLY_JSON_PATCH',
-    // ApplyTextPatch: 'APPLY_TEXT_PATCH',
-} as const;
-export type ChangeType = typeof ChangeTypes[keyof typeof ChangeTypes];
-
-export const EntryTypes = {
-    JSON: 'JSON',
-    TEXT: 'TEXT',
-    DIRECTORY: 'DIRECTORY',
-} as const;
-export type EntryType = typeof EntryTypes[keyof typeof EntryTypes];
 
 export type ParamsListFiles = {
     project: string;
@@ -73,45 +53,6 @@ export type ParamsPush = {
     baseRevision: string;
     commitMessage: CommitMessage;
     changes: Change[];
-};
-
-export type Query = {
-    path: string;
-    type: QueryType;
-    expressions?: string[];
-};
-
-export type Entry = {
-    path: string;
-    type: EntryType;
-    content?: string;
-    revision?: number;
-    url?: string;
-    modifiedAt?: string;
-};
-
-export type PushResult = {
-    revision: number;
-    pushedAt: string;
-};
-
-export type Commit = {
-    revision: number;
-    author?: Author;
-    commitMessage?: CommitMessage;
-    pushedAt?: string;
-};
-
-export type CommitMessage = {
-    summary: string;
-    detail?: string;
-    markup?: string;
-};
-
-export type Change = {
-    path: string;
-    type: ChangeType;
-    content?: unknown;
 };
 
 export class ContentService {

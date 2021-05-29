@@ -1,13 +1,14 @@
 import { constants as http2constants } from 'http2';
 import { exec } from 'child_process';
-import { HttpClient } from '../lib/internal/httpClient';
+import { HttpClient } from '../../lib/internal/httpClient';
 import {
+    ChangeTypes,
     ContentService,
+    QueryTypes,
     RepositoryService,
     WatchResult,
     WatchService,
-} from '../lib';
-import { ChangeTypes, QueryTypes } from '../lib/contentService';
+} from '../../lib';
 
 const { HTTP_STATUS_NOT_MODIFIED } = http2constants;
 

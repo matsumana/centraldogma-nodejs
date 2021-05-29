@@ -1,19 +1,7 @@
-import { HttpClient } from './internal/httpClient';
-import { Author } from './projectService';
+import { HttpClient } from '../internal/httpClient';
+import { Repository } from '../type/repository';
 
 const PATH_PREFIX = '/api/v1/projects';
-
-export type Repository = {
-    name: string;
-    creator?: Author;
-    headRevision?: number;
-    url?: string;
-    createdAt?: string;
-};
-
-export type Rev = {
-    rev: number;
-};
 
 export class RepositoryService {
     private readonly httpClient: HttpClient;

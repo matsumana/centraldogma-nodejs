@@ -1,18 +1,7 @@
-import { HttpClient } from './internal/httpClient';
+import { HttpClient } from '../internal/httpClient';
+import { Project } from '../type/project';
 
 const PATH_PROJECT = '/api/v1/projects';
-
-export type Project = {
-    name: string;
-    creator?: Author;
-    url?: string;
-    createdAt?: string;
-};
-
-export type Author = {
-    name?: string;
-    email?: string;
-};
 
 export class ProjectService {
     private readonly httpClient: HttpClient;

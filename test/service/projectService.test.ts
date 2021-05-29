@@ -1,5 +1,5 @@
-import { HttpClient } from '../lib/internal/httpClient';
-import { ProjectService } from '../lib';
+import { HttpClient } from '../../lib/internal/httpClient';
+import { ProjectService } from '../../lib';
 
 const client = new HttpClient({
     baseURL: 'http://localhost:36462',
