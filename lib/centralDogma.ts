@@ -1,8 +1,8 @@
 import { HttpClient } from './internal/httpClient';
-import { WatchService } from './watchService';
-import { ContentService } from './contentService';
-import { ProjectService } from './projectService';
-import { RepositoryService } from './repositoryService';
+import { WatchService } from './service/watchService';
+import { ContentService } from './service/contentService';
+import { ProjectService } from './service/projectService';
+import { RepositoryService } from './service/repositoryService';
 
 export class CentralDogma {
     private readonly httpClient: HttpClient;

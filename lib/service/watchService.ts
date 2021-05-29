@@ -1,7 +1,9 @@
 import { constants as http2constants } from 'http2';
 import { EventEmitter } from 'events';
-import { HttpClient } from './internal/httpClient';
-import { ContentService, Entry, QueryTypes } from './contentService';
+import { HttpClient } from '../internal/httpClient';
+import { ContentService } from './contentService';
+import { QueryTypes } from '../type/query';
+import { WatchResult } from '../type/watchResult';
 
 const {
     HTTP2_HEADER_IF_NONE_MATCH,
@@ -24,11 +26,6 @@ export type ParamsWatchRepo = {
     pathPattern: string;
     lastKnownRevision: number;
     timeoutSeconds?: number;
-};
-
-export type WatchResult = {
-    revision: number;
-    entry: Entry;
 };
 
 export class WatchService {

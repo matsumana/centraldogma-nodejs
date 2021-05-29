@@ -1,6 +1,11 @@
-import { HttpClient } from '../lib/internal/httpClient';
-import { ContentService, RepositoryService } from '../lib';
-import { ChangeTypes, EntryTypes, QueryTypes } from '../lib/contentService';
+import { HttpClient } from '../../lib/internal/httpClient';
+import {
+    ChangeTypes,
+    ContentService,
+    EntryTypes,
+    QueryTypes,
+    RepositoryService,
+} from '../../lib';
 
 const client = new HttpClient({
     baseURL: 'http://localhost:36462',
