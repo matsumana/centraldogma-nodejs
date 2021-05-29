@@ -12,7 +12,7 @@
         "allowJs": true,
         "declaration": false,
         "declarationMap": false,
-        "sourceMap": false,
+        "sourceMap": true,
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "ES2015",
