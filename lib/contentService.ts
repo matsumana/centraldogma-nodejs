@@ -11,6 +11,24 @@ export const QueryTypes = {
 } as const;
 export type QueryType = typeof QueryTypes[keyof typeof QueryTypes];
 
+export const ChangeTypes = {
+    UpsertJson: 'UPSERT_JSON',
+    UpsertText: 'UPSERT_TEXT',
+    Remove: 'REMOVE',
+    Rename: 'RENAME',
+    // TODO add support patch
+    // ApplyJsonPatch: 'APPLY_JSON_PATCH',
+    // ApplyTextPatch: 'APPLY_TEXT_PATCH',
+} as const;
+export type ChangeType = typeof ChangeTypes[keyof typeof ChangeTypes];
+
+export const EntryTypes = {
+    JSON: 'JSON',
+    TEXT: 'TEXT',
+    DIRECTORY: 'DIRECTORY',
+} as const;
+export type EntryType = typeof EntryTypes[keyof typeof EntryTypes];
+
 export type ParamsGetHistory = {
     project: string;
     repo: string;
@@ -28,6 +46,14 @@ export type ParamsGetDiffs = {
     to: string;
 };
 
+export type ParamsPush = {
+    project: string;
+    repo: string;
+    baseRevision: string;
+    commitMessage: CommitMessage;
+    changes: Change[];
+};
+
 export type Query = {
     path: string;
     type: QueryType;
@@ -36,7 +62,7 @@ export type Query = {
 
 export type Entry = {
     path: string;
-    type: number;
+    type: EntryType;
     content?: string;
     revision?: number;
     url?: string;
@@ -63,7 +89,7 @@ export type CommitMessage = {
 
 export type Change = {
     path: string;
-    type: number;
+    type: ChangeType;
     content?: unknown;
 };
 
@@ -157,8 +183,15 @@ export class ContentService {
         return response.data ? JSON.parse(response.data) : [];
     }
 
-    async push(): Promise<PushResult> {
-        throw new Error('not implemented');
+    async push(params: ParamsPush): Promise<PushResult> {
+        const query = `?revision=${params.baseRevision}`;
+        const requestPath = `/api/v1/projects/${params.project}/repos/${params.repo}/contents${query}`;
+        const body = {
+            commitMessage: params.commitMessage,
+            changes: params.changes,
+        };
+        const response = await this.httpClient.post(requestPath, body);
+        return response.data ? JSON.parse(response.data) : null;
     }
 
     private async filesInner(

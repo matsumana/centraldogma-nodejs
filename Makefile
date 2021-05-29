@@ -100,6 +100,13 @@ setup-test-data:
 	  -H 'Content-Type: application/json' \
 	  -d @test/data/project3.json \
 	  http://localhost:36462/api/v1/projects
+	# ----------
+	# project4
+	curl -X POST \
+	  -H 'Authorization: Bearer anonymous' \
+	  -H 'Content-Type: application/json' \
+	  -d @test/data/project4.json \
+	  http://localhost:36462/api/v1/projects
 
 .PHONY: update-test-data
 update-test-data:
