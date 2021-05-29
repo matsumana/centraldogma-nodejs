@@ -428,9 +428,13 @@ describe('ContentService#getFiles with nested directory', () => {
 
 describe('ContentService#getFile', () => {
     it('getFile', async () => {
-        const entry = await sut.getFile('project1', 'repo1', {
-            path: '/test1.json',
-            type: QueryTypes.Identity,
+        const entry = await sut.getFile({
+            project: 'project1',
+            repo: 'repo1',
+            query: {
+                path: '/test1.json',
+                type: QueryTypes.Identity,
+            },
         });
         expect(entry.path).toBe('/test1.json');
         expect(entry.content).toEqual({

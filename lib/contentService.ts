@@ -29,6 +29,13 @@ export const EntryTypes = {
 } as const;
 export type EntryType = typeof EntryTypes[keyof typeof EntryTypes];
 
+export type ParamsGetFile = {
+    project: string;
+    repo: string;
+    query: Query;
+    revision?: number;
+};
+
 export type ParamsGetFiles = {
     project: string;
     repo: string;
@@ -122,15 +129,12 @@ export class ContentService {
         );
     }
 
-    async getFile(
-        project: string,
-        repo: string,
-        query: Query,
-        revision?: number
-    ): Promise<Entry> {
+    async getFile(params: ParamsGetFile): Promise<Entry> {
         // TODO add support jsonpath
-        const revisionQuery = revision ? `?revision=${revision}` : '';
-        const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${query.path}${revisionQuery}`;
+        const revisionQuery = params.revision
+            ? `?revision=${params.revision}`
+            : '';
+        const requestPath = `/api/v1/projects/${params.project}/repos/${params.repo}/contents/${params.query.path}${revisionQuery}`;
         const response = await this.httpClient.get(requestPath);
         return response.data ? JSON.parse(response.data) : null;
     }
