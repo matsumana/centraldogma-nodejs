@@ -110,7 +110,10 @@ describe('ContentService#listFiles without nested directory', () => {
 
 describe('ContentService#getFiles without nested directory', () => {
     it('getFiles without pathPattern', async () => {
-        const entries = await sut.getFiles('project1', 'repo1');
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo1',
+        });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
         expect(entries[0].type).toBe(EntryTypes.JSON);
@@ -127,7 +130,11 @@ describe('ContentService#getFiles without nested directory', () => {
     });
 
     it('getFiles with wildcard', async () => {
-        const entries = await sut.getFiles('project1', 'repo1', '/test*.json');
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo1',
+            pathPattern: '/test*.json',
+        });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
         expect(entries[0].type).toBe(EntryTypes.JSON);
@@ -144,7 +151,11 @@ describe('ContentService#getFiles without nested directory', () => {
     });
 
     it('getFiles with specific path', async () => {
-        const entries = await sut.getFiles('project1', 'repo1', '/test1.json');
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo1',
+            pathPattern: '/test1.json',
+        });
         expect(entries.length).toBe(1);
         expect(entries[0].path).toBe('/test1.json');
         expect(entries[0].type).toBe(EntryTypes.JSON);
@@ -155,7 +166,11 @@ describe('ContentService#getFiles without nested directory', () => {
     });
 
     it('getFiles with file path without dir', async () => {
-        const entries = await sut.getFiles('project1', 'repo1', 'test*.json');
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo1',
+            pathPattern: 'test*.json',
+        });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
         expect(entries[0].type).toBe(EntryTypes.JSON);
@@ -172,12 +187,12 @@ describe('ContentService#getFiles without nested directory', () => {
     });
 
     it('getFiles with revision 3', async () => {
-        const entries = await sut.getFiles(
-            'project1',
-            'repo1',
-            '/test*.json',
-            3
-        );
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo1',
+            pathPattern: '/test*.json',
+            revision: 3,
+        });
 
         // in revision 3, `/test1.json` and `/test2.json` are included
         // Can see it in Central Dogma's WebUI too
@@ -198,12 +213,12 @@ describe('ContentService#getFiles without nested directory', () => {
     });
 
     it('getFiles with revision 2', async () => {
-        const entries = await sut.getFiles(
-            'project1',
-            'repo1',
-            '/test*.json',
-            2
-        );
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo1',
+            pathPattern: '/test*.json',
+            revision: 2,
+        });
 
         // in revision 2, `/test2.json` is not included
         // Can see it in Central Dogma's WebUI too
@@ -306,7 +321,10 @@ describe('ContentService#listFiles with nested directory', () => {
 
 describe('ContentService#getFiles with nested directory', () => {
     it('getFiles without pathPattern', async () => {
-        const entries = await sut.getFiles('project1', 'repo2');
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo2',
+        });
         expect(entries.length).toBe(4);
 
         // If you don't specify `pathPattern`, directories will be included
@@ -339,7 +357,11 @@ describe('ContentService#getFiles with nested directory', () => {
     });
 
     it('getFiles with wildcard', async () => {
-        const entries = await sut.getFiles('project1', 'repo2', '/**/*.json');
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo2',
+            pathPattern: '/**/*.json',
+        });
         expect(entries.length).toBe(3);
         expect(entries[0].path).toBe('/dir1/test4.json');
         expect(entries[0].type).toBe(EntryTypes.JSON);
@@ -362,11 +384,11 @@ describe('ContentService#getFiles with nested directory', () => {
     });
 
     it('getFiles with specific path', async () => {
-        const entries = await sut.getFiles(
-            'project1',
-            'repo2',
-            '/dir1/test4.json'
-        );
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo2',
+            pathPattern: '/dir1/test4.json',
+        });
         expect(entries.length).toBe(1);
         expect(entries[0].path).toBe('/dir1/test4.json');
         expect(entries[0].type).toBe(EntryTypes.JSON);
@@ -377,7 +399,11 @@ describe('ContentService#getFiles with nested directory', () => {
     });
 
     it('getFiles with file path without dir', async () => {
-        const entries = await sut.getFiles('project1', 'repo2', 'test*.json');
+        const entries = await sut.getFiles({
+            project: 'project1',
+            repo: 'repo2',
+            pathPattern: 'test*.json',
+        });
         expect(entries.length).toBe(3);
         expect(entries[0].path).toBe('/dir1/test4.json');
         expect(entries[0].type).toBe(EntryTypes.JSON);
@@ -754,7 +780,11 @@ describe('ContentService#push', () => {
 
         expect(result.revision - 1).toBe(baseRevision);
 
-        const entries = await sut.getFiles(projectName, repoName, '/*.json');
+        const entries = await sut.getFiles({
+            project: projectName,
+            repo: repoName,
+            pathPattern: '/*.json',
+        });
         expect(entries.length).toBe(2);
         // 1st
         expect(entries[0].path).toBe('/abc.json');
