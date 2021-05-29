@@ -21,12 +21,12 @@ describe('ContentService#listFiles without nested directory', () => {
         });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
         expect(entries[1].path).toBe('/test2.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test2.json'
         );
@@ -40,12 +40,12 @@ describe('ContentService#listFiles without nested directory', () => {
         });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
         expect(entries[1].path).toBe('/test2.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test2.json'
         );
@@ -59,7 +59,7 @@ describe('ContentService#listFiles without nested directory', () => {
         });
         expect(entries.length).toBe(1);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
@@ -73,12 +73,12 @@ describe('ContentService#listFiles without nested directory', () => {
         });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
         expect(entries[1].path).toBe('/test2.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test2.json'
         );
@@ -97,12 +97,12 @@ describe('ContentService#listFiles without nested directory', () => {
         // http://localhost:36462/#/projects/project1/repos/repo1/list/3/
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
         expect(entries[1].path).toBe('/test2.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test2.json'
         );
@@ -121,7 +121,7 @@ describe('ContentService#listFiles without nested directory', () => {
         // http://localhost:36462/#/projects/project1/repos/repo1/list/2/
         expect(entries.length).toBe(1);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
@@ -136,13 +136,13 @@ describe('ContentService#getFiles without nested directory', () => {
         });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'foo' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
         expect(entries[1].path).toBe('/test2.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].content).toEqual({ field1: 'bar' });
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test2.json'
@@ -157,13 +157,13 @@ describe('ContentService#getFiles without nested directory', () => {
         });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'foo' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
         expect(entries[1].path).toBe('/test2.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].content).toEqual({ field1: 'bar' });
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test2.json'
@@ -178,7 +178,7 @@ describe('ContentService#getFiles without nested directory', () => {
         });
         expect(entries.length).toBe(1);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'foo' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
@@ -193,13 +193,13 @@ describe('ContentService#getFiles without nested directory', () => {
         });
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'foo' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
         expect(entries[1].path).toBe('/test2.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].content).toEqual({ field1: 'bar' });
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test2.json'
@@ -219,13 +219,13 @@ describe('ContentService#getFiles without nested directory', () => {
         // http://localhost:36462/#/projects/project1/repos/repo1/list/3/
         expect(entries.length).toBe(2);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'foo' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
         );
         expect(entries[1].path).toBe('/test2.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].content).toEqual({ field1: 'bar' });
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test2.json'
@@ -245,7 +245,7 @@ describe('ContentService#getFiles without nested directory', () => {
         // http://localhost:36462/#/projects/project1/repos/repo1/list/2/
         expect(entries.length).toBe(1);
         expect(entries[0].path).toBe('/test1.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'foo' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo1/contents/test1.json'
@@ -263,25 +263,25 @@ describe('ContentService#listFiles with nested directory', () => {
 
         // If you don't specify `pathPattern`, directories will be included
         expect(entries[0].path).toBe('/dir1');
-        expect(entries[0].type).toBe(EntryTypes.DIRECTORY);
+        expect(entries[0].type).toBe(EntryTypes.Directory);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1'
         );
 
         expect(entries[1].path).toBe('/dir1/test4.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
 
         expect(entries[2].path).toBe('/dir1/test5.json');
-        expect(entries[2].type).toBe(EntryTypes.JSON);
+        expect(entries[2].type).toBe(EntryTypes.Json);
         expect(entries[2].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test5.json'
         );
 
         expect(entries[3].path).toBe('/test3.json');
-        expect(entries[3].type).toBe(EntryTypes.JSON);
+        expect(entries[3].type).toBe(EntryTypes.Json);
         expect(entries[3].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/test3.json'
         );
@@ -295,17 +295,17 @@ describe('ContentService#listFiles with nested directory', () => {
         });
         expect(entries.length).toBe(3);
         expect(entries[0].path).toBe('/dir1/test4.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
         expect(entries[1].path).toBe('/dir1/test5.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test5.json'
         );
         expect(entries[2].path).toBe('/test3.json');
-        expect(entries[2].type).toBe(EntryTypes.JSON);
+        expect(entries[2].type).toBe(EntryTypes.Json);
         expect(entries[2].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/test3.json'
         );
@@ -319,7 +319,7 @@ describe('ContentService#listFiles with nested directory', () => {
         });
         expect(entries.length).toBe(1);
         expect(entries[0].path).toBe('/dir1/test4.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
@@ -333,17 +333,17 @@ describe('ContentService#listFiles with nested directory', () => {
         });
         expect(entries.length).toBe(3);
         expect(entries[0].path).toBe('/dir1/test4.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
         expect(entries[1].path).toBe('/dir1/test5.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test5.json'
         );
         expect(entries[2].path).toBe('/test3.json');
-        expect(entries[2].type).toBe(EntryTypes.JSON);
+        expect(entries[2].type).toBe(EntryTypes.Json);
         expect(entries[2].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/test3.json'
         );
@@ -360,27 +360,27 @@ describe('ContentService#getFiles with nested directory', () => {
 
         // If you don't specify `pathPattern`, directories will be included
         expect(entries[0].path).toBe('/dir1');
-        expect(entries[0].type).toBe(EntryTypes.DIRECTORY);
+        expect(entries[0].type).toBe(EntryTypes.Directory);
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1'
         );
 
         expect(entries[1].path).toBe('/dir1/test4.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].content).toEqual({ field1: 'test4.json in dir1' });
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
 
         expect(entries[2].path).toBe('/dir1/test5.json');
-        expect(entries[2].type).toBe(EntryTypes.JSON);
+        expect(entries[2].type).toBe(EntryTypes.Json);
         expect(entries[2].content).toEqual({ field1: 'test5.json in dir1' });
         expect(entries[2].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test5.json'
         );
 
         expect(entries[3].path).toBe('/test3.json');
-        expect(entries[3].type).toBe(EntryTypes.JSON);
+        expect(entries[3].type).toBe(EntryTypes.Json);
         expect(entries[3].content).toEqual({ field1: 'baz' });
         expect(entries[3].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/test3.json'
@@ -395,19 +395,19 @@ describe('ContentService#getFiles with nested directory', () => {
         });
         expect(entries.length).toBe(3);
         expect(entries[0].path).toBe('/dir1/test4.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'test4.json in dir1' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
         expect(entries[1].path).toBe('/dir1/test5.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].content).toEqual({ field1: 'test5.json in dir1' });
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test5.json'
         );
         expect(entries[2].path).toBe('/test3.json');
-        expect(entries[2].type).toBe(EntryTypes.JSON);
+        expect(entries[2].type).toBe(EntryTypes.Json);
         expect(entries[2].content).toEqual({ field1: 'baz' });
         expect(entries[2].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/test3.json'
@@ -422,7 +422,7 @@ describe('ContentService#getFiles with nested directory', () => {
         });
         expect(entries.length).toBe(1);
         expect(entries[0].path).toBe('/dir1/test4.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'test4.json in dir1' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
@@ -437,19 +437,19 @@ describe('ContentService#getFiles with nested directory', () => {
         });
         expect(entries.length).toBe(3);
         expect(entries[0].path).toBe('/dir1/test4.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'test4.json in dir1' });
         expect(entries[0].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test4.json'
         );
         expect(entries[1].path).toBe('/dir1/test5.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].content).toEqual({ field1: 'test5.json in dir1' });
         expect(entries[1].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/dir1/test5.json'
         );
         expect(entries[2].path).toBe('/test3.json');
-        expect(entries[2].type).toBe(EntryTypes.JSON);
+        expect(entries[2].type).toBe(EntryTypes.Json);
         expect(entries[2].content).toEqual({ field1: 'baz' });
         expect(entries[2].url).toBe(
             '/api/v1/projects/project1/repos/repo2/contents/test3.json'
@@ -823,7 +823,7 @@ describe('ContentService#push', () => {
         expect(entries.length).toBe(2);
         // 1st
         expect(entries[0].path).toBe('/abc.json');
-        expect(entries[0].type).toBe(EntryTypes.JSON);
+        expect(entries[0].type).toBe(EntryTypes.Json);
         expect(entries[0].content).toEqual({ field1: 'abc' });
         expect(entries[0].url).toBe(
             `/api/v1/projects/${projectName}/repos/${repoName}/contents/abc.json`
@@ -831,7 +831,7 @@ describe('ContentService#push', () => {
         expect(entries[0].revision).toBe(result.revision);
         // 2nd
         expect(entries[1].path).toBe('/def.json');
-        expect(entries[1].type).toBe(EntryTypes.JSON);
+        expect(entries[1].type).toBe(EntryTypes.Json);
         expect(entries[1].content).toEqual({ field1: 'def' });
         expect(entries[1].url).toBe(
             `/api/v1/projects/${projectName}/repos/${repoName}/contents/def.json`

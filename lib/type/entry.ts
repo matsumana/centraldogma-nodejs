@@ -1,7 +1,7 @@
 export const EntryTypes = {
-    JSON: 'JSON',
-    TEXT: 'TEXT',
-    DIRECTORY: 'DIRECTORY',
+    Json: 'JSON',
+    Text: 'TEXT',
+    Directory: 'DIRECTORY',
 } as const;
 export type EntryType = typeof EntryTypes[keyof typeof EntryTypes];
 
