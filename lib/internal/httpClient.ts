@@ -1,4 +1,8 @@
-import http2, { ClientHttp2Session } from 'http2';
+import {
+    constants as http2constants,
+    connect as http2connect,
+    ClientHttp2Session,
+} from 'http2';
 import { OutgoingHttpHeaders } from 'http';
 import { CentralDogmaOptions } from '../centralDogma';
 
@@ -13,7 +17,7 @@ const {
     HTTP2_HEADER_PATH,
     HTTP2_HEADER_STATUS,
     HTTP2_HEADER_AUTHORIZATION,
-} = http2.constants;
+} = http2constants;
 
 const DEFAULT_AUTHORIZATION_TOKEN = 'anonymous';
 
@@ -29,7 +33,7 @@ export class HttpClient {
 
     constructor(opts: CentralDogmaOptions) {
         this.token = opts.token ?? DEFAULT_AUTHORIZATION_TOKEN;
-        this.session = http2.connect(opts.baseURL, {});
+        this.session = http2connect(opts.baseURL, {});
     }
 
     async get(

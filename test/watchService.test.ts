@@ -1,10 +1,10 @@
-import http2 from 'http2';
+import { constants as http2constants } from 'http2';
 import { exec } from 'child_process';
 import { HttpClient } from '../lib/internal/httpClient';
 import { ContentService, WatchResult, WatchService } from '../lib';
 import { QueryTypes } from '../lib/contentService';
 
-const { HTTP_STATUS_NOT_MODIFIED } = http2.constants;
+const { HTTP_STATUS_NOT_MODIFIED } = http2constants;
 
 const client = new HttpClient({
     baseURL: 'http://localhost:36462',
