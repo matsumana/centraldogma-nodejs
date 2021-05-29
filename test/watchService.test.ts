@@ -27,9 +27,13 @@ describe('WatchService', () => {
         const project = 'project1';
         const repo = 'repo1';
         const path = '/test1.json';
-        const entry = await contentService.getFile(project, repo, {
-            path,
-            type: QueryTypes.Identity,
+        const entry = await contentService.getFile({
+            project,
+            repo: 'repo1',
+            query: {
+                path,
+                type: QueryTypes.Identity,
+            },
         });
         const revision = entry.revision ?? -1;
 

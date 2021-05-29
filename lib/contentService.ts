@@ -29,6 +29,13 @@ export const EntryTypes = {
 } as const;
 export type EntryType = typeof EntryTypes[keyof typeof EntryTypes];
 
+export type ParamsListFiles = {
+    project: string;
+    repo: string;
+    pathPattern?: string;
+    revision?: number;
+};
+
 export type ParamsGetFile = {
     project: string;
     repo: string;
@@ -114,18 +121,13 @@ export class ContentService {
         this.httpClient = client;
     }
 
-    async listFiles(
-        project: string,
-        repo: string,
-        pathPattern?: string,
-        revision?: number
-    ): Promise<Entry[]> {
+    async listFiles(params: ParamsListFiles): Promise<Entry[]> {
         return await this.filesInner(
             'list',
-            project,
-            repo,
-            pathPattern,
-            revision
+            params.project,
+            params.repo,
+            params.pathPattern,
+            params.revision
         );
     }
 
