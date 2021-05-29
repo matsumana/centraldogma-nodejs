@@ -20,6 +20,14 @@ export type ParamsGetHistory = {
     maxCommits?: number;
 };
 
+export type ParamsGetDiffs = {
+    project: string;
+    repo: string;
+    pathPattern?: string;
+    from: string;
+    to: string;
+};
+
 export type Query = {
     path: string;
     type: QueryType;
@@ -113,7 +121,6 @@ export class ContentService {
         const from = params.from ?? '';
         const obj = {
             path: params.pathPattern ?? '/**',
-            from,
             to: params.to,
             maxCommits: params.maxCommits ?? 3,
         };
@@ -130,11 +137,24 @@ export class ContentService {
     }
 
     async getDiff(): Promise<Change> {
+        // TODO add support jsonpath
         throw new Error('not implemented');
     }
 
-    async getDiffs(): Promise<Change[]> {
-        throw new Error('not implemented');
+    async getDiffs(params: ParamsGetDiffs): Promise<Change[]> {
+        const obj = {
+            path: params.pathPattern ?? '/**',
+            from: params.from,
+            to: params.to,
+        };
+        const query =
+            '?' +
+            Object.entries(obj)
+                .map((element) => `${element[0]}=${element[1]}`)
+                .join('&');
+        const requestPath = `/api/v1/projects/${params.project}/repos/${params.repo}/compare${query}`;
+        const response = await this.httpClient.get(requestPath);
+        return response.data ? JSON.parse(response.data) : [];
     }
 
     async push(): Promise<PushResult> {
