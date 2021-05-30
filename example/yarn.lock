@@ -43,10 +43,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@matsumana/centraldogma-nodejs@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@matsumana/centraldogma-nodejs/-/centraldogma-nodejs-0.5.1.tgz#e1b95fe71d895f4b67d13224bf7721825c71819f"
-  integrity sha512-6ox6IuSmTIC4va/IuRRlEAq0+SEcSHcOEzLJdjzGWLmQ+tm1p8+8NWO52qGQE0RZ/ZnIc8jahIpizvgcGz5deg==
+"@matsumana/centraldogma-nodejs@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@matsumana/centraldogma-nodejs/-/centraldogma-nodejs-0.6.0.tgz#9f883beafd45d0b77aec4394d4c49b5794230813"
+  integrity sha512-KXiSb9RiE9eaOqJmO4+WEEhVSXZgHVo9A67OVgwXeHTUdqMhjYB+WjukH6RoxZJ/G6Qa0Kz+7/FJQmEM1XDutg==
 
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
