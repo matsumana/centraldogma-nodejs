@@ -21,11 +21,11 @@ const centralDogma = new CentralDogma({
 let entry: Entry;
 
 // start watching the file in CentralDogma
-const emitter = centralDogma.watch.watchFile(
-    CENTRAL_DOGMA_PROJECT,
-    CENTRAL_DOGMA_REPO,
-    CENTRAL_DOGMA_PATH
-);
+const emitter = centralDogma.watch.watchFile({
+    project: CENTRAL_DOGMA_PROJECT,
+    repo: CENTRAL_DOGMA_REPO,
+    filePath: CENTRAL_DOGMA_PATH,
+});
 emitter.on('data', (watchResult: WatchResult) => {
     console.log(`received entry=${JSON.stringify(watchResult)}`);
     entry = watchResult.entry;
