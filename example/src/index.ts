@@ -11,7 +11,7 @@ const STARTUP_TIMEOUT = 3_000;
 const CENTRAL_DOGMA_BASE_URL = 'http://localhost:36462';
 const CENTRAL_DOGMA_PROJECT = 'project2';
 const CENTRAL_DOGMA_REPO = 'repo2';
-const CENTRAL_DOGMA_PATH = '/test6.json';
+const CENTRAL_DOGMA_PATH = '/test7.json';
 
 // setup CentralDogma client
 const centralDogma = new CentralDogma({
