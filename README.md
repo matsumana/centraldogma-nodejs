@@ -29,8 +29,8 @@ In Central Dogma, there are various use cases.
 e.g.
 
 - Service discovery
-- Saving Rate limit configuration
-- Saving A/B testing configuration
+- Managing Rate limit configuration
+- Managing A/B testing configuration
 - etc
 
 If you refer to a Central Dogma server via client library, an app can get a change immediately.
