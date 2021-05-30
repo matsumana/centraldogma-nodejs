@@ -67,7 +67,7 @@ const emitter = centralDogma.watch.watchFile({
 });
 ```
 
-### If you want to develop admin application to change configuration managed by Central Dogma
+### If you want to develop admin application to change configurations managed by Central Dogma
 
 #### get a file
 
