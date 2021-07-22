@@ -4,8 +4,10 @@
 ![npm version](https://img.shields.io/npm/v/@matsumana/centraldogma-nodejs)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/@matsumana/centraldogma-nodejs)
 ![Dependencies](https://img.shields.io/david/matsumana/centraldogma-nodejs)
-![npm downloads](https://img.shields.io/npm/dm/@matsumana/centraldogma-nodejs)
 ](https://www.npmjs.com/package/@matsumana/centraldogma-nodejs)
+[
+![npm downloads](https://img.shields.io/npm/dm/@matsumana/centraldogma-nodejs)
+](https://npmcharts.com/compare/@matsumana/centraldogma-nodejs)
 
 [
 ![CircleCI](https://circleci.com/gh/matsumana/centraldogma-nodejs/tree/main.svg?style=shield)
