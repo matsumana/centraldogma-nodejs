@@ -24,20 +24,20 @@ describe('RepositoryService', () => {
 
         expect(repositories[0].name).toBe('dogma');
         expect(repositories[0].url).toBe(
-            '/api/v1/projects/project1/repos/dogma'
+            '/api/v1/projects/project1/repos/dogma',
         );
         expect(repositories[1].name).toBe('meta');
         expect(repositories[1].url).toBe(
-            '/api/v1/projects/project1/repos/meta'
+            '/api/v1/projects/project1/repos/meta',
         );
 
         expect(repositories[2].name).toBe('repo1');
         expect(repositories[2].url).toBe(
-            '/api/v1/projects/project1/repos/repo1'
+            '/api/v1/projects/project1/repos/repo1',
         );
         expect(repositories[3].name).toBe('repo2');
         expect(repositories[3].url).toBe(
-            '/api/v1/projects/project1/repos/repo2'
+            '/api/v1/projects/project1/repos/repo2',
         );
     });
 
@@ -67,7 +67,7 @@ describe('RepositoryService', () => {
         expect(repoUnRemoved.createdAt).toBeTruthy();
         expect(repoUnRemoved.creator?.name).toBe('admin');
         expect(repoUnRemoved.creator?.email).toBe(
-            'admin@localhost.localdomain'
+            'admin@localhost.localdomain',
         );
 
         // compare with the count of after added
@@ -84,7 +84,7 @@ describe('RepositoryService', () => {
         await sut.create(projectName, repoName);
         const reposBeforeRemoved = await sut.listRemoved(projectName);
         expect(
-            reposBeforeRemoved.map((repo) => repo.name).includes(repoName)
+            reposBeforeRemoved.map((repo) => repo.name).includes(repoName),
         ).toBe(false);
 
         // remove the added repo
@@ -92,7 +92,7 @@ describe('RepositoryService', () => {
 
         const reposAfterRemoved = await sut.listRemoved(projectName);
         expect(
-            reposAfterRemoved.map((repo) => repo.name).includes(repoName)
+            reposAfterRemoved.map((repo) => repo.name).includes(repoName),
         ).toBe(true);
     });
 

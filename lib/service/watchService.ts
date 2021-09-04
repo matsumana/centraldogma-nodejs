@@ -66,7 +66,7 @@ export class WatchService {
                         params.filePath,
                         currentRevision,
                         params.timeoutSeconds ??
-                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT,
                     );
                     currentRevision = watchResult.revision;
                     emitter.emit('data', watchResult);
@@ -104,7 +104,7 @@ export class WatchService {
                         params.pathPattern,
                         currentRevision,
                         params.timeoutSeconds ??
-                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT,
                     );
                     currentRevision = watchResult.revision;
                     emitter.emit('data', watchResult);
@@ -132,7 +132,7 @@ export class WatchService {
         repo: string,
         path: string,
         revision: number,
-        timeoutSeconds?: number
+        timeoutSeconds?: number,
     ): Promise<WatchResult> {
         const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${path}`;
         const prefer = `wait=${

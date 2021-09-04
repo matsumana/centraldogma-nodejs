@@ -48,7 +48,7 @@ describe('WatchService', () => {
                 repo,
                 path,
                 revision,
-                timeoutSeconds
+                timeoutSeconds,
             );
 
             // If no error occurs, let this test fail

@@ -29,7 +29,7 @@ export class ProjectService {
         const body = [{ op: 'replace', path: '/status', value: 'active' }];
         const response = await this.httpClient.patch(
             `${PATH_PROJECT}/${project}`,
-            body
+            body,
         );
         return response.data ? JSON.parse(response.data) : {};
     }
@@ -41,7 +41,7 @@ export class ProjectService {
 
     async listRemoved(): Promise<Project[]> {
         const response = await this.httpClient.get(
-            `${PATH_PROJECT}?status=removed`
+            `${PATH_PROJECT}?status=removed`,
         );
         return response.data ? JSON.parse(response.data) : [{}];
     }

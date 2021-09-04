@@ -8,28 +8,28 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                name: Restore Yarn Package Cache
-                keys:
-                    - yarn-packages-{{ checksum "yarn.lock" }}
+                  name: Restore Yarn Package Cache
+                  keys:
+                      - yarn-packages-{{ checksum "yarn.lock" }}
             - run:
-                name: Install Dependencies
-                command: yarn install --immutable
+                  name: Install Dependencies
+                  command: yarn install --immutable
             - save_cache:
-                name: Save Yarn Package Cache
-                key: yarn-packages-{{ checksum "yarn.lock" }}
-                paths:
-                    - ~/.cache/yarn
+                  name: Save Yarn Package Cache
+                  key: yarn-packages-{{ checksum "yarn.lock" }}
+                  paths:
+                      - ~/.cache/yarn
             - run:
-                name: Wait for a while for starting up Central Dogma then setup test data
-                command: |
-                    sleep 30
-                    make setup-test-data
+                  name: Wait for a while for starting up Central Dogma then setup test data
+                  command: |
+                      sleep 30
+                      make setup-test-data
             - run:
-                name: Run lint
-                command: yarn lint
+                  name: Run lint
+                  command: yarn lint
             - run:
-                name: Run test
-                command: yarn test
+                  name: Run test
+                  command: yarn test
             - run:
-                name: Run build
-                command: yarn build
+                  name: Run build
+                  command: yarn build

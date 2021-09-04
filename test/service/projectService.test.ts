@@ -52,7 +52,7 @@ describe('ProjectService', () => {
         expect(projectUnRemoved.createdAt).toBeTruthy();
         expect(projectUnRemoved.creator?.name).toBe('System');
         expect(projectUnRemoved.creator?.email).toBe(
-            'system@localhost.localdomain'
+            'system@localhost.localdomain',
         );
 
         // compare with the count of after added
@@ -71,7 +71,7 @@ describe('ProjectService', () => {
         expect(
             projectsBeforeRemoved
                 .map((project) => project.name)
-                .includes(projectName)
+                .includes(projectName),
         ).toBe(false);
 
         // remove the added project
@@ -81,7 +81,7 @@ describe('ProjectService', () => {
         expect(
             projectsAfterRemoved
                 .map((project) => project.name)
-                .includes(projectName)
+                .includes(projectName),
         ).toBe(true);
     });
 
