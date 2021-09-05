@@ -41,7 +41,7 @@ export class HttpClient {
         requestHeaders?: OutgoingHttpHeaders,
     ): Promise<CentralDogmaResponse> {
         const body = {};
-        return this.request(HTTP2_METHOD_GET, path, body, requestHeaders);
+        return await this.request(HTTP2_METHOD_GET, path, body, requestHeaders);
     }
 
     async post(
@@ -49,7 +49,12 @@ export class HttpClient {
         body?: Record<string, unknown>,
         requestHeaders?: OutgoingHttpHeaders,
     ): Promise<CentralDogmaResponse> {
-        return this.request(HTTP2_METHOD_POST, path, body, requestHeaders);
+        return await this.request(
+            HTTP2_METHOD_POST,
+            path,
+            body,
+            requestHeaders,
+        );
     }
 
     async delete(
@@ -57,7 +62,12 @@ export class HttpClient {
         requestHeaders?: OutgoingHttpHeaders,
     ): Promise<CentralDogmaResponse> {
         const body = {};
-        return this.request(HTTP2_METHOD_DELETE, path, body, requestHeaders);
+        return await this.request(
+            HTTP2_METHOD_DELETE,
+            path,
+            body,
+            requestHeaders,
+        );
     }
 
     async patch(
@@ -65,7 +75,12 @@ export class HttpClient {
         body?: unknown,
         requestHeaders?: OutgoingHttpHeaders,
     ): Promise<CentralDogmaResponse> {
-        return this.request(HTTP2_METHOD_PATCH, path, body, requestHeaders);
+        return await this.request(
+            HTTP2_METHOD_PATCH,
+            path,
+            body,
+            requestHeaders,
+        );
     }
 
     private async request(
