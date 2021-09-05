@@ -16,7 +16,7 @@
 ![Known Vulnerabilities](https://snyk.io/test/github/matsumana/centraldogma-nodejs/badge.svg)
 ](https://snyk.io/test/github/matsumana/centraldogma-nodejs)
 
-This is a client library for Central Dogma.
+This is an "unofficial" client library for Central Dogma.
 
 ## What is Central Dogma?
 
