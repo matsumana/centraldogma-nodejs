@@ -66,15 +66,13 @@ export class WatchService {
                         params.filePath,
                         currentRevision,
                         params.timeoutSeconds ??
-                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT,
                     );
                     currentRevision = watchResult.revision;
                     emitter.emit('data', watchResult);
                 } catch (e) {
                     // TODO: implement exponential backoff with jitter
-                    if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
-                        emitter.emit('error', e);
-                    }
+                    this.handleException(e, emitter);
                 } finally {
                     setImmediate(() => {
                         watch(currentRevision);
@@ -104,15 +102,13 @@ export class WatchService {
                         params.pathPattern,
                         currentRevision,
                         params.timeoutSeconds ??
-                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT
+                            REQUEST_HEADER_PREFER_SECONDS_DEFAULT,
                     );
                     currentRevision = watchResult.revision;
                     emitter.emit('data', watchResult);
                 } catch (e) {
                     // TODO: implement exponential backoff with jitter
-                    if (e.statusCode !== HTTP_STATUS_NOT_MODIFIED) {
-                        emitter.emit('error', e);
-                    }
+                    this.handleException(e, emitter);
                 } finally {
                     setImmediate(() => {
                         watch(currentRevision);
@@ -132,7 +128,7 @@ export class WatchService {
         repo: string,
         path: string,
         revision: number,
-        timeoutSeconds?: number
+        timeoutSeconds?: number,
     ): Promise<WatchResult> {
         const requestPath = `/api/v1/projects/${project}/repos/${repo}/contents/${path}`;
         const prefer = `wait=${
@@ -144,5 +140,20 @@ export class WatchService {
         };
         const response = await this.httpClient.get(requestPath, headers);
         return response.data ? JSON.parse(response.data) : {};
+    }
+
+    private handleException(e: unknown, emitter: EventEmitter) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const statusCode = e.statusCode;
+        if (statusCode) {
+            if (statusCode === HTTP_STATUS_NOT_MODIFIED) {
+                // ignore 304
+            } else {
+                emitter.emit('error', e);
+            }
+        } else {
+            emitter.emit('error', e);
+        }
     }
 }

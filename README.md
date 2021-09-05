@@ -16,7 +16,7 @@
 ![Known Vulnerabilities](https://snyk.io/test/github/matsumana/centraldogma-nodejs/badge.svg)
 ](https://snyk.io/test/github/matsumana/centraldogma-nodejs)
 
-This is a client library for Central Dogma.
+This is an "unofficial" client library for Central Dogma.
 
 ## What is Central Dogma?
 
@@ -30,10 +30,10 @@ In Central Dogma, there are various use cases.
 
 e.g.
 
-- Service discovery
-- Managing Rate limit configuration
-- Managing A/B testing configuration
-- etc
+-   Service discovery
+-   Managing Rate limit configuration
+-   Managing A/B testing configuration
+-   etc
 
 If you refer to a Central Dogma server via client library, an app can get a change immediately.
 
@@ -53,7 +53,7 @@ $ npm i @matsumana/centraldogma-nodejs
 
 You can get changes via EventEmitter continuously.
 
-Please refer to the [example](./example/src/index.ts) for more details.
+Please refer to the [examples](examples/src/index.ts) for more details.
 
 ```typescript
 import { CentralDogma } from '@matsumana/centraldogma-nodejs';

@@ -9,15 +9,14 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noImplicitReturns": true,
-        "allowJs": true,
+        "allowJs": false,
         "declaration": true,
-        "declarationMap": false,
+        "declarationMap": true,
         "sourceMap": true,
+        "forceConsistentCasingInFileNames": true,
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "ES2015",
-        "lib": [
-            "ES2020"
-        ]
+        "lib": ["ES2020"]
     }
 }

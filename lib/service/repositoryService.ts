@@ -15,7 +15,7 @@ export class RepositoryService {
             `${PATH_PREFIX}/${project}/repos`,
             {
                 name: repo,
-            }
+            },
         );
         return response.data ? JSON.parse(response.data) : {};
     }
@@ -26,7 +26,7 @@ export class RepositoryService {
 
     async purge(project: string, repo: string): Promise<void> {
         await this.httpClient.delete(
-            `${PATH_PREFIX}/${project}/repos/${repo}/removed`
+            `${PATH_PREFIX}/${project}/repos/${repo}/removed`,
         );
     }
 
@@ -34,21 +34,21 @@ export class RepositoryService {
         const body = [{ op: 'replace', path: '/status', value: 'active' }];
         const response = await this.httpClient.patch(
             `${PATH_PREFIX}/${project}/repos/${repo}`,
-            body
+            body,
         );
         return response.data ? JSON.parse(response.data) : {};
     }
 
     async list(project: string): Promise<Repository[]> {
         const response = await this.httpClient.get(
-            `${PATH_PREFIX}/${project}/repos`
+            `${PATH_PREFIX}/${project}/repos`,
         );
         return response.data ? JSON.parse(response.data) : [{}];
     }
 
     async listRemoved(project: string): Promise<Repository[]> {
         const response = await this.httpClient.get(
-            `${PATH_PREFIX}/${project}/repos?status=removed`
+            `${PATH_PREFIX}/${project}/repos?status=removed`,
         );
         return response.data ? JSON.parse(response.data) : [{}];
     }

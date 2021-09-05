@@ -38,41 +38,56 @@ export class HttpClient {
 
     async get(
         path: string,
-        requestHeaders?: OutgoingHttpHeaders
+        requestHeaders?: OutgoingHttpHeaders,
     ): Promise<CentralDogmaResponse> {
         const body = {};
-        return this.request(HTTP2_METHOD_GET, path, body, requestHeaders);
+        return await this.request(HTTP2_METHOD_GET, path, body, requestHeaders);
     }
 
     async post(
         path: string,
         body?: Record<string, unknown>,
-        requestHeaders?: OutgoingHttpHeaders
+        requestHeaders?: OutgoingHttpHeaders,
     ): Promise<CentralDogmaResponse> {
-        return this.request(HTTP2_METHOD_POST, path, body, requestHeaders);
+        return await this.request(
+            HTTP2_METHOD_POST,
+            path,
+            body,
+            requestHeaders,
+        );
     }
 
     async delete(
         path: string,
-        requestHeaders?: OutgoingHttpHeaders
+        requestHeaders?: OutgoingHttpHeaders,
     ): Promise<CentralDogmaResponse> {
         const body = {};
-        return this.request(HTTP2_METHOD_DELETE, path, body, requestHeaders);
+        return await this.request(
+            HTTP2_METHOD_DELETE,
+            path,
+            body,
+            requestHeaders,
+        );
     }
 
     async patch(
         path: string,
         body?: unknown,
-        requestHeaders?: OutgoingHttpHeaders
+        requestHeaders?: OutgoingHttpHeaders,
     ): Promise<CentralDogmaResponse> {
-        return this.request(HTTP2_METHOD_PATCH, path, body, requestHeaders);
+        return await this.request(
+            HTTP2_METHOD_PATCH,
+            path,
+            body,
+            requestHeaders,
+        );
     }
 
     private async request(
         method: string,
         path: string,
         body?: unknown,
-        requestHeaders?: OutgoingHttpHeaders
+        requestHeaders?: OutgoingHttpHeaders,
     ) {
         return new Promise<CentralDogmaResponse>((resolve, reject) => {
             const defaultHeaders = {
@@ -104,7 +119,7 @@ export class HttpClient {
                 stream.on('data', (chunk) => (data += chunk.toString()));
                 stream.on('end', () => {
                     const statusCode = Number(
-                        responseHeaders[HTTP2_HEADER_STATUS]
+                        responseHeaders[HTTP2_HEADER_STATUS],
                     );
                     const response: CentralDogmaResponse = {
                         headers: responseHeaders,

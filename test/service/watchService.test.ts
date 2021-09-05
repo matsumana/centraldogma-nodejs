@@ -24,7 +24,7 @@ describe('WatchService', () => {
         return new Promise((resolve) => setTimeout(resolve, milliseconds));
     }
 
-    it('watchFileInner returns Not Modified(304) response', async () => {
+    it('watchFileInner does not return `Not Modified(304)` response', async () => {
         const project = 'project1';
         const repo = 'repo1';
         const path = '/test1.json';
@@ -48,13 +48,21 @@ describe('WatchService', () => {
                 repo,
                 path,
                 revision,
-                timeoutSeconds
+                timeoutSeconds,
             );
 
             // If no error occurs, let this test fail
             expect(true).toBe(false);
         } catch (e) {
-            expect(e.statusCode).toBe(HTTP_STATUS_NOT_MODIFIED);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            const statusCode = e.statusCode;
+            if (statusCode) {
+                expect(statusCode).toBe(HTTP_STATUS_NOT_MODIFIED);
+            } else {
+                // If another error occurs, let this test fail
+                expect(true).toBe(false);
+            }
         }
     }, 10_000);
 

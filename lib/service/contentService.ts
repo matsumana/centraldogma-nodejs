@@ -68,7 +68,7 @@ export class ContentService {
             params.project,
             params.repo,
             params.pathPattern,
-            params.revision
+            params.revision,
         );
     }
 
@@ -88,7 +88,7 @@ export class ContentService {
             params.project,
             params.repo,
             params.pathPattern,
-            params.revision
+            params.revision,
         );
     }
 
@@ -148,7 +148,7 @@ export class ContentService {
         project: string,
         repo: string,
         pathPattern?: string,
-        revision?: number
+        revision?: number,
     ): Promise<Entry[]> {
         if (!pathPattern) {
             pathPattern = '/**';

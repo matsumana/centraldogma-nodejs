@@ -18,7 +18,7 @@ export class CentralDogma {
         this.contentService = new ContentService(this.httpClient);
         this.watchService = new WatchService(
             this.httpClient,
-            this.contentService
+            this.contentService,
         );
     }
 
