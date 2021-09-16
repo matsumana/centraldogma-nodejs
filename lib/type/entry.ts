@@ -8,7 +8,10 @@ export type EntryType = typeof EntryTypes[keyof typeof EntryTypes];
 export type Entry = {
     path: string;
     type: EntryType;
-    content?: string;
+    /**
+     * content is parsed value or object when the type is `JSON`, otherwise string
+     */
+    content?: unknown;
     revision?: number;
     url?: string;
     modifiedAt?: string;
