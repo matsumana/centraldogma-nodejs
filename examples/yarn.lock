@@ -8,9 +8,9 @@
   integrity sha512-Fxt+AfXgjMoin2maPIYzFZnQjAXjAL0PHscM5pRTtatFqB+vZxAM9tLp2Optnuw3QOQC40jTNeGYFOMvyf7v9g==
 
 "@matsumana/centraldogma-nodejs@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@matsumana/centraldogma-nodejs/-/centraldogma-nodejs-0.6.0.tgz#9f883beafd45d0b77aec4394d4c49b5794230813"
-  integrity sha512-KXiSb9RiE9eaOqJmO4+WEEhVSXZgHVo9A67OVgwXeHTUdqMhjYB+WjukH6RoxZJ/G6Qa0Kz+7/FJQmEM1XDutg==
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@matsumana/centraldogma-nodejs/-/centraldogma-nodejs-0.6.1.tgz#1b777bb552b7127b660b8464e55f0df1f7a91e74"
+  integrity sha512-UoeHPmijw2phnsVaA4ku1PfFT4VXr7k76V2BZ/O/56OWcw9xLbCauwtR15uLIJNmKGP3AiNlYtgJFZX2LuxGxA==
 
 "@types/body-parser@*":
   version "1.19.1"
