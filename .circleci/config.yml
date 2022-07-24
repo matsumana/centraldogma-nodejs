@@ -3,7 +3,7 @@ jobs:
     build:
         working_directory: ~/repo
         docker:
-            - image: cimg/node:12.22
+            - image: cimg/node:14.19.3
             - image: line/centraldogma:0.49.1
         steps:
             - checkout
