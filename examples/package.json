@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "@matsumana/centraldogma-nodejs": "^0.6.0",
-        "express": "^4.19.2"
+        "express": "^4.20.0"
     },
     "devDependencies": {
         "@types/express": "^4.17.13",
